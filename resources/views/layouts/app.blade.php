@@ -27,8 +27,6 @@
     @vite(['js/app.js'])
     @vite(['/resources/css/bootstrap.min.css'])
     @vite(['/resources/sass/app.scss'])
-    @vite(['/lib/owlcarousel/assets/owl.carousel.min.css'])
-    @vite(['/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css'])
     <script>
         jQuery(document).ready(function($){
             $(".sidebar-toggler").click(function(e) {
@@ -37,10 +35,8 @@
             });
         })
     </script>
-
 </head>
 <body>
-{{-- @include('layouts.nav') --}}
 @yield('content')
 </body>
 </html>
