@@ -26,7 +26,9 @@ class HomeController extends Controller
     public function index()
     {
         $pageTitle = 'Home';
+        $customer_count = Customer::count();
 
-        return view('home', ['pageTitle' => $pageTitle]);
+        return view('home', ['pageTitle' => $pageTitle,
+        'customer_count' => $customer_count,]);
     }
 }
