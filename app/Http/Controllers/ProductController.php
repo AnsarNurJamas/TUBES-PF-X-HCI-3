@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
 {
@@ -18,6 +19,8 @@ class ProductController extends Controller
         {
             $pageTitle = 'Product';
 
+            confirmDelete();
+            
             $products = Product::all();
             return view('Product.index', [
                 'pageTitle' => $pageTitle,
@@ -76,6 +79,7 @@ class ProductController extends Controller
         $product->status= $request->status;
         $product->save();
 
+        Alert::success('Sukses Menambahkan', 'Sukses Menambahkan Produk.');
         return redirect()->route('Product.index');
     }
 
@@ -156,6 +160,7 @@ class ProductController extends Controller
         $product->status = $request->status;
         $product->save();
 
+        Alert::success('Sukses Mengubah', 'Sukses Mengubah Produk.');
         return redirect()->route('Product.index');
     }
 
@@ -172,6 +177,7 @@ class ProductController extends Controller
 
         $product->delete();
 
+        Alert::success('Sukses Menghapus', 'Sukses Menghapus Produk.');
         return redirect()->route('Product.index');
     }
     }

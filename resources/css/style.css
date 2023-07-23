@@ -15,6 +15,10 @@
     z-index: 99;
 }
 
+.swal2-popup{
+    background-color: #000000;
+}
+
 
 /*** Spinner ***/
 #spinner {
