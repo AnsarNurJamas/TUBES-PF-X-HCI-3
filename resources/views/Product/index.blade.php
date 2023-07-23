@@ -1,5 +1,31 @@
 @extends('layouts.app')
 @section('content')
+@push('scripts')
+<script type="module">
+    $(document).ready(function() {
+
+        $(".datatable").on("click", ".btn-delete", function (e) {
+            e.preventDefault();
+
+            var form = $(this).closest("form");
+            var name = $(this).data("name");
+
+            Swal.fire({
+                title: "Are you sure want to delete\n" + name + "?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "bg-primary",
+                confirmButtonText: "Yes, delete it!",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
+@endpush
     <div class="container-fluid position-relative d-flex p-0">
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
@@ -57,7 +83,7 @@
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                                    <table class="table text-start align-middle table-bordered table-hover mb-0 datatable">
                                         <thead>
                                             <tr class="text-white">
                                                 <th scope="col">ID</th>
@@ -92,8 +118,8 @@
                                                         <form action="{{ route('Product.destroy', $product) }}" method="POST">
                                                             @csrf
                                                             @method('delete')
-                                                            <a style="background-color: rgba(53, 142, 224, 1)" class="btn btn-sm btn-dark far fa-edit " href="{{route('Product.edit', $product)}}"></a>
-                                                            <button type="submit" class="mx-3 btn btn-sm btn-primary" data-name="{{ $product->kodeproduk.' '.$product->name }}">
+                                                            <a style="background-color: rgba(53, 142, 224, 1)" class="btn btn-sm btn-dark far fa-edit" href="{{route('Product.edit', $product)}}"></a>
+                                                            <button type="submit" class="mx-3 btn btn-sm btn-primary btn-delete" data-name="{{ $product->kodeproduk.' '.$product->name }}">
                                                                 <i class="bi-trash"></i>
                                                             </button>
                                                         </form>

@@ -35,9 +35,12 @@
             $(".sidebar, .content").toggleClass("open");
             });
         })
+        
     </script>
 </head>
 <body>
 @yield('content')
+@include('sweetalert::alert')
+@stack('scripts')
 </body>
 </html>
