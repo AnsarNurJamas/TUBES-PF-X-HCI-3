@@ -27,8 +27,11 @@ class HomeController extends Controller
     {
         $pageTitle = 'Home';
         $customer_count = Customer::count();
+        $product_count = Product::count();
+
 
         return view('home', ['pageTitle' => $pageTitle,
-        'customer_count' => $customer_count,]);
+        'customer_count' => $customer_count,
+        'product_count' => $product_count,]);
     }
 }

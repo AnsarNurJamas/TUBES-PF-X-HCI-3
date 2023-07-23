@@ -53,10 +53,10 @@
                 <div class="row g-4">
                     <div class="col-sm-6 col-xl-3">
                         <div class="bg-secondary rounded d-flex align-items-center p-4">
-                            <i class="fa fa-shopping-cart fa-3x text-primary""></i>
+                            <i class="fa fa-shopping-cart fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2 text-primary">Total Produk</p>
-                                <h6 class="mb-0"></h6>
+                                <h6 class="mb-0">{{$product_count}}</h6>
                             </div>
                         </div>
                     </div>
