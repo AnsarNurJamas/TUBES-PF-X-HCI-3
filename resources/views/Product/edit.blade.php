@@ -11,8 +11,8 @@
             </div>
             <div class="navbar-nav w-100">
                 <a href="{{route('home')}}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dasbor</a>
-                <a href="{{route('Product.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Produk</a>
-                <a href="{{route('customer.index')}}" class="nav-item nav-link active"><i class="fa fa-user-friends me-2"></i>Pelanggan</a>
+                <a href="{{route('Product.index')}}" class="nav-item nav-link active"><i class="fa fa-shopping-cart me-2"></i>Produk</a>
+                <a href="{{route('customer.index')}}" class="nav-item nav-link"><i class="fa fa-user-friends me-2"></i>Pelanggan</a>
                 <a href="{{route('order')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Penjualan</a>
                 <a href="" class="nav-item nav-link"><i class="fa fa-cash-register me-2"></i>Titik Penjualan</a>
                 <a href="{{ route('logout') }}" class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"
@@ -49,43 +49,65 @@
         </nav>
         {{-- Title + Button  --}}
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <h4 class="ms-4 mt-4">Edit Product</h4>
+            <h4 class="ms-4 mt-4">Edit Produk</h4>
         </div>
         {{-- End Title + Button --}}
 
         <div class="container-fluid pt-4 px-4">
             <div class="bg-secondary rounded p-4">
-                <form>
+                <form action="{{route('Product.update', $product)}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="namadepan" class="form-label">Nama Depan</label>
-                            <input type="text" class="form-control" name="namadepan" id="namadepan" placeholder="Masukan Nama Depan">
+                            <label for="kodeproduk" class="form-label">Kode Produk</label>
+                            <input type="text" class="form-control @error('kodeproduk') is-invalid @enderror" name="kodeproduk" id="kodeproduk" value="{{ old('kodeproduk', $product->kodeproduk) }}"  placeholder="Masukan Kode Produk">
+                            @error('kodeproduk')
+                            <div class="text-danger"><small>{{ $message }}</small></div>
+                            @enderror
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="namabelakang" class="form-label">Nama Belakang</label>
-                            <input type="text" class="form-control" name="namabelakang" id="namabelakang" placeholder="Masukan Nama Belakang">
+                            <label for="name" class="form-label">Nama Produk</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ old('name', $product->name) }}" placeholder="Masukan Nama Produk">
+                            @error('name')
+                            <div class="text-danger"><small>{{ $message }}</small></div>
+                            @enderror
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Masukan Email">
+                            <label for="price" class="form-label">Harga Produk</label>
+                            <input type="text" class="form-control @error('price') is-invalid @enderror" name="price" id="price" value="{{ old('price', $product->price) }}" placeholder="Masukan Harga Produk">
+                            @error('price')
+                            <div class="text-danger"><small>{{ $message }}</small></div>
+                            @enderror
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="nomortelepon" class="form-label">Nomor Telepon</label>
-                            <input type="text" class="form-control" name="nomortelepon" id="nomortelepon" placeholder="Masukan Nomor Telepon">
+                            <label for="quantity" class="form-label">Stok Produk</label>
+                            <input type="text" class="form-control @error('quantity') is-invalid @enderror" name="quantity" id="quantity" value="{{ old('quantity', $product->quantity) }}" placeholder="Masukan Stok Produk">
+                            @error('quantity')
+                            <div class="text-danger"><small>{{ $message }}</small></div>
+                            @enderror
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="alamat" class="form-label">Alamat</label>
-                            <input type="text" class="form-control" name="alamat" id="alamat" placeholder="Masukan Alamat">
+                            <label for="image" class="form-label">Gambar Produk</label>
+                            <input type="file" class="form-control" name="image" id="image" style="background-color: rgb(0, 0, 0)">
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="avatar" class="form-label">Avatar</label>
-                            <input type="file" class="form-control" name="avatar" id="avatar" style="background-color: rgb(0, 0, 0)">
+                            <label for="description" class="form-label">Deskripsi Produk</label>
+                            <input type="text" class="form-control" name="description" id="description" value="{{ old('description', $product->description) }}" placeholder="Masukan Deskripsi Produk">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="statusproduk" class="form-label">Status Produk</label>
+                            <select class="form-select" aria-label="Default select example" name="status" id="status">
+                                <option selected>Status Produk</option>
+                                <option value="1" {{old('status', $product->status) === 1 ? 'selected' : ''}}>Produk Ada</option>
+                                <option value="0" {{old('status', $product->status) === 0 ? 'selected' : ''}}>Produk Belum Ada</option>
+                              </select>
                         </div>
                         <div class="col-md-6 d-grid">
-                            <a href="{{route('customer.index')}}" class="btn btn-danger btn-lg mt-3">Batal Edit Pelanggan</a>
+                            <a href="{{route('Product.index')}}" class="btn btn-danger btn-lg mt-3">Batal Edit Produk</a>
                         </div>
                         <div class="col-md-6 d-grid">
-                            <a href="" class="btn btn-success btn-lg mt-3">Edit Pelanggan</a>
+                            <button type="submit" class="btn btn-success btn-lg mt-3">Edit Produk</button>
                         </div>
                     </div>
                 </form>

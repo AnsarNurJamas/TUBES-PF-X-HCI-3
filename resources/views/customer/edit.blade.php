@@ -61,7 +61,10 @@
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="first_name" class="form-label">Nama Depan</label>
-                            <input type="text" class="form-control" name="first_name" id="first_name" value="{{ old('first_name', $customer->first_name) }}" placeholder="Masukan Nama Depan">
+                            <input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" id="first_name" value="{{ old('first_name', $customer->first_name) }}" placeholder="Masukan Nama Depan">
+                            @error('first_name')
+                            <div class="text-danger"><small>{{ $message }}</small></div>
+                            @enderror
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="last_name" class="form-label">Nama Belakang</label>
@@ -69,15 +72,21 @@
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" value="{{ old('email', $customer->email) }}" placeholder="Masukan Email">
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" value="{{ old('email', $customer->email) }}" placeholder="Masukan Email">
+                            @error('email')
+                            <div class="text-danger"><small>{{ $message }}</small></div>
+                            @enderror
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="phone" class="form-label">Nomor Telepon</label>
                             <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone', $customer->phone) }}" placeholder="Masukan Nomor Telepon">
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="address" class="form-label">Alamat</label>
-                            <input type="text" class="form-control" name="address" id="address" value="{{ old('address', $customer->address) }}" placeholder="Masukan Alamat">
+                            <label for="address" class="form-label ">Alamat</label>
+                            <input type="text" class="form-control @error('address') is-invalid @enderror" name="address" id="address" value="{{ old('address', $customer->address) }}" placeholder="Masukan Alamat">
+                            @error('address')
+                            <div class="text-danger"><small>{{ $message }}</small></div>
+                            @enderror
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="avatar" class="form-label">Avatar</label>
