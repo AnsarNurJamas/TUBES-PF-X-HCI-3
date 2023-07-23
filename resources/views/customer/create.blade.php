@@ -55,27 +55,37 @@
 
         <div class="container-fluid pt-4 px-4">
             <div class="bg-secondary rounded p-4">
-                <form>
+                <form action="{{ route('customer.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="namadepan" class="form-label">Nama Depan</label>
-                            <input type="text" class="form-control" name="namadepan" id="namadepan" placeholder="Masukan Nama Depan">
+                            <label for="first_name" class="form-label">Nama Depan</label>
+                            <input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" id="first_name" value="{{ old('first_name') }}" placeholder="Masukan Nama Depan">
+                            @error('first_name')
+                                <div class="text-danger"><small>{{ $message }}</small></div>
+                            @enderror
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="namabelakang" class="form-label">Nama Belakang</label>
-                            <input type="text" class="form-control" name="namabelakang" id="namabelakang" placeholder="Masukan Nama Belakang">
+                            <label for="last_name" class="form-label">Nama Belakang</label>
+                            <input type="text" class="form-control" name="last_name" id="last_name" value="{{ old('last_name') }}" placeholder="Masukan Nama Belakang">
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Masukan Email">
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" value="{{ old('email') }}" placeholder="Masukan Email">
+                            @error('email')
+                            <div class="text-danger"><small>{{ $message }}</small></div>
+                            @enderror
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="nomortelepon" class="form-label">Nomor Telepon</label>
-                            <input type="text" class="form-control" name="nomortelepon" id="nomortelepon" placeholder="Masukan Nomor Telepon">
+                            <label for="phone" class="form-label">Nomor Telepon</label>
+                            <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone') }}" placeholder="Masukan Nomor Telepon">
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="alamat" class="form-label">Alamat</label>
-                            <input type="text" class="form-control" name="alamat" id="alamat" placeholder="Masukan Alamat">
+                            <label for="address" class="form-label">Alamat</label>
+                            <input type="text" class="form-control @error('address') is-invalid @enderror" name="address" id="address" value="{{ old('address') }}" placeholder="Masukan Alamat">
+                            @error('address')
+                            <div class="text-danger"><small>{{ $message }}</small></div>
+                            @enderror
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="avatar" class="form-label">Avatar</label>
@@ -85,7 +95,7 @@
                             <a href="{{route('customer.index')}}" class="btn btn-danger btn-lg mt-3">Batal Tambahkkan Pelanggan</a>
                         </div>
                         <div class="col-md-6 d-grid">
-                            <a href="" class="btn btn-success btn-lg mt-3">Tambahkan Pelanggan</a>
+                            <button type="submit" class="btn btn-success btn-lg mt-3">Tambahkan Pelanggan</button>
                         </div>
                     </div>
                 </form>
