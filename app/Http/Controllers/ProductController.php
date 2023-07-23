@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -12,8 +15,13 @@ class ProductController extends Controller
     public function index()
     {
         {
-            $pageTitle = 'product';
-            return view('Product.index', ['pageTitle' => $pageTitle]);
+            $pageTitle = 'Product';
+
+            $products = Product::all();
+            return view('Product.index', [
+                'pageTitle' => $pageTitle,
+                'product' => $products
+            ]);
         }
     }
 
@@ -31,7 +39,43 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $messages = [
+            'required' => 'Kolom Ini Harus Diisi.',
+            'numeric' => 'Isi :attribute dengan angka',
+            'kodeproduk.unique' => 'kode barang sudah ada',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'kodeproduk' => 'required|unique:products,kodeproduk',
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'quantity' => 'required|numeric',
+            'status' => 'required',
+        ], $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+
+
+        }
+
+        $image_path = '';
+
+        if ($request->hasFile('image')) {
+            $image_path = $request->file('image')->store('products', 'public');
+        }
+
+        $product = New Product;
+        $product->kodeproduk = $request->kodeproduk;
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->image = $image_path;
+        $product->price = $request->price;
+        $product->quantity = $request->quantity;
+        $product->status= $request->status;
+        $product->save();
+
+        return redirect()->route('Product.index');
     }
 
     /**
@@ -47,8 +91,11 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        $pageTitle = 'Edit Product';
-        return view('Product.edit', ['pageTitle' => $pageTitle]);
+        $pageTitle = 'Edit Produk';
+
+        $product = Product::find($id);
+
+        return view('Product.edit', compact('pageTitle', 'product'));
     }
 
     /**
@@ -56,7 +103,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+       ///
     }
 
     /**
@@ -64,6 +111,6 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+       //
     }
 }

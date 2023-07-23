@@ -61,11 +61,12 @@
                                         <thead>
                                             <tr class="text-white">
                                                 <th scope="col">ID</th>
+                                                <th scope="col">KODE PRODUK</th>
                                                 <th scope="col">NAMA</th>
                                                 <th scope="col">GAMBAR</th>
-                                                <th scope="col">BARCODE</th>
                                                 <th scope="col">HARGA</th>
                                                 <th scope="col">JUMLAH</th>
+                                                <th scope="col">SATUAN</th>
                                                 <th scope="col">STATUS</th>
                                                 <th scope="col">CREATE AT</th>
                                                 <th scope="col">UPDATE AT</th>
@@ -73,31 +74,31 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>001</td>
-                                                <td>SEMEN</td>
-                                                <td></td>
-                                                <td>1134621</td>
-                                                <td>Rp 100.000</td>
-                                                <td>1</td>
-                                                <td>Barang Sudah Siap</td>
-                                                <td>2023-07-09 12.59.03</td>
-                                                <td>2023-08-09 11.16.03</td>
-                                                <td><a style="background-color: rgba(53, 142, 224, 1)" class="btn btn-sm btn-dark far fa-edit " href=""></a> <a class="mx-3 btn btn-sm btn-primary" href=""><i class="fa fa-trash"></i></td>
+                                            @foreach ($product as $product )
+                                                <tr>
+                                                    <td>{{$product->id}}</td>
+                                                    <td>{{$product->kodeproduk}}</td>
+                                                    <td>{{$product->name}}</td>
+                                                    <td><img width="40px" class="img-thumbnail" src="{{ Storage::url($product->image)}}" alt=""></td>
+                                                    <td>{{$product->price}}</td>
+                                                    <td>{{$product->quantity}}</td>
+                                                    <td>{{$product->description}}</td>
+                                                    <td>
+                                                        <span class="right badge badge-{{ $product->status ? 'success' : 'danger' }}">{{$product->status ? 'Ada' : 'Belum Ada'}}</span>
+                                                    </td>
+                                                    <td>{{$product->created_at}}</td>
+                                                    <td>{{$product->updated_at}}</td>
+                                                    <td>
+                                                        <form>
 
-                                            </tr>
-                                            <tr>
-                                                <td>002</td>
-                                                <td>PASIR</td>
-                                                <td></td>
-                                                <td>1135632</td>
-                                                <td>Rp 100.000</td>
-                                                <td>1</td>
-                                                <td>Barang Sudah Siap</td>
-                                                <td>2023-10-09 15.59.03</td>
-                                                <td>2023-11-09 18.10.03</td>
-                                                <td><a style="background-color: rgba(53, 142, 224, 1)" class="btn btn-sm btn-dark far fa-edit " href=""></a> <a class="mx-3 btn btn-sm btn-primary" href=""><i class="fa fa-trash"></i></td>
-                                            </tr>
+                                                            <a style="background-color: rgba(53, 142, 224, 1)" class="btn btn-sm btn-dark far fa-edit " href="{{route('Product.edit', $product)}}"></a>
+                                                            <button type="submit" class="mx-3 btn btn-sm btn-primary">
+                                                                <i class="bi-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -118,7 +119,7 @@
                                         &copy; <a href="#">RYPOS SYSTEM</a>, All Right Reserved.
                                     </div>
                                     <div class="col-12 col-sm-6 text-center text-sm-end">
-                                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                                        <!--/* This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. */-->
                                         Designed By <a href="https://htmlcodex.com">ThreeDeveloper</a>
                                         <br>Distributed By: <a href="https://themewagon.com" target="_blank">RYPOS SYSTEM</a>
                                     </div>
