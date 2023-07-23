@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Customer;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class CustomerController extends Controller
@@ -101,6 +102,21 @@ class CustomerController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $messages = [
+            'required' => 'harus diisi',
+            'email' => 'Isi :attribute dengan format yang benar',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'email' => 'email',
+            'address' => 'required',
+        ], $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+
+        }
 
 
         $customer = Customer::find($id);

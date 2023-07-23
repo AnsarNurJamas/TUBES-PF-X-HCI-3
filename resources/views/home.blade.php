@@ -56,7 +56,7 @@
                             <i class="fa fa-shopping-cart fa-3x text-primary""></i>
                             <div class="ms-3">
                                 <p class="mb-2 text-primary">Total Produk</p>
-                                <h6 class="mb-0">190</h6>
+                                <h6 class="mb-0"></h6>
                             </div>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                             <i class="fa fa-user-friends fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2 text-primary">Total Pelanggan</p>
-                                <h6 class="mb-0">28</h6>
+                                <h6 class="mb-0"></h6>
                             </div>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                                     <td>10 JANUARI 2023</td>
                                     <td>BB8MM</td>
                                     <td>BESI BETON</td>
-                                    <td>MIFTAH IMOET</td>
+                                    <td>WALKING CUSTOMER</td>
                                     <td>10</td>
                                     <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
                                 </tr>
@@ -135,7 +135,7 @@
                                     <td>15 JANUARI 2023</td>
                                     <td>BR8MM</td>
                                     <td>BESI RANGKA</td>
-                                    <td>WAHIBATUL COLEHAH</td>
+                                    <td>ADI</td>
                                     <td>10</td>
                                     <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
                                 </tr>
@@ -144,7 +144,7 @@
                                     <td>20 JANUARI 2023</td>
                                     <td>DG150MM</td>
                                     <td>DJABESMEN GELOMBANG</td>
-                                    <td>AGUS SUPIRYADI</td>
+                                    <td>AGUS</td>
                                     <td>2</td>
                                     <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
                                 </tr>
@@ -153,7 +153,7 @@
                                     <td>21 JANUARI 2023</td>
                                     <td>DG240MM</td>
                                     <td>DJABESMEN GELOMBANG</td>
-                                    <td>AGUS SETIAWAN</td>
+                                    <td>WALKING CUSTOMER</td>
                                     <td>7</td>
                                     <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
                                 </tr>
@@ -162,7 +162,7 @@
                                     <td>22 JANUARI 2023</td>
                                     <td>BB8SRB</td>
                                     <td>BESI BETON</td>
-                                    <td>GATOT PAMUNGKAS</td>
+                                    <td>SANJAYA</td>
                                     <td>3</td>
                                     <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
                                 </tr>
@@ -252,14 +252,14 @@
                                 <div class="bg-dark rounded d-flex align-items-center p-4">
                                     <i class="fa fa-user fa-3x text-primary""></i>
                                     <div class="ms-3">
-                                        <p class="ps-3 text-primary">Miftah Alhamdulillah</p>
+                                        <p class="ps-3 text-primary">Miftah</p>
                                         <h6 class="ps-3">089666530317</h6>
                                     </div>
                                 </div>
                                 <div class="bg-dark rounded d-flex align-items-center p-4 mt-5">
                                     <i class="fa fa-user fa-3x text-primary""></i>
                                     <div class="ms-3">
-                                        <p class="ps-3 text-primary">Wahibul hahay</p>
+                                        <p class="ps-3 text-primary">Hanif Bahy Hasyid</p>
                                         <h6 class="ps-3">082136736166</h6>
                                     </div>
                                 </div>
