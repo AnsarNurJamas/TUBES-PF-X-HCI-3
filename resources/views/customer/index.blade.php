@@ -15,6 +15,7 @@
                     <a href="{{route('customer.index')}}" class="nav-item nav-link active"><i class="fa fa-user-friends me-2"></i>Pelanggan</a>
                     <a href="{{route('order')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Penjualan</a>
                     <a href="" class="nav-item nav-link"><i class="fa fa-cash-register me-2"></i>Titik Penjualan</a>
+                    <a href="" class="nav-item nav-link"><i class="fa fa-cog me-2"></i>Setting</a>
                     <a href="{{ route('logout') }}" class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"
                      onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
@@ -73,39 +74,29 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>001</td>
-                                    <td></td>
-                                    <td>hanif bahy hasyid</td>
-                                    <td>admin@admin1</td>
-                                    <td>089666530317</td>
-                                    <td>sidoarjo</td>
-                                    <td>10 JANUARI 2023</td>
-                                    <td>
-                                        <a style="background-color: rgba(53, 142, 224, 1)" class=" mx-3 btn btn-sm btn-dark far fa-edit" href=""></a>
-                                        <a class=" btn btn-sm btn-primary" href=""><i class="fa fa-trash"></i>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>002</td>
-                                    <td></td>
-                                    <td>fahri firdaus</td>
-                                    <td>admin@admin2</td>
-                                    <td>08976546564</td>
-                                    <td>sidoarjo</td>
-                                    <td>15 JANUARI 2023</td>
-                                    <td><a style="background-color: rgba(53, 142, 224, 1)" class=" mx-3 btn btn-sm btn-dark far fa-edit " href=""></a> <a class=" btn btn-sm btn-primary" href=""><i class="fa fa-trash"></i></td>
-                                <tr>
-                                    <td>003</td>
-                                    <td></td>
-                                    <td>ansar nur jamas</td>
-                                    <td>admin@admin3</td>
-                                    <td>0897766654454</td>
-                                    <td>surabaya</td>
-                                    <td>20 JANUARI 2023</td>
-                                    <td><a  style=" background-color: rgba(53, 142, 224, 1)" class="mx-3 btn btn-sm btn-dark far fa-edit " href=""></a> <a class=" btn btn-sm btn-primary" href=""><i class="fa fa-trash"></i></td>
-                                </tr>
+                                @foreach ($customer as $customer)
+                                    <tr>
+                                        <td>{{$customer->id}}</td>
+                                        <td>
+                                            <img width="40px" class="img-thumbnail" src="{{$customer->getAvatarUrl()}}" alt="">
+                                        </td>
+                                        <td>{{$customer->first_name}}{{$customer->last_name}}</td>
+                                        <td>{{$customer->email}}</td>
+                                        <td>{{$customer->phone}}</td>
+                                        <td>{{$customer->address}}</td>
+                                        <td>{{$customer->created_at}}</td>
+                                        <td>
+                                            <form action="{{ route('customer.destroy', ['customer' => $customer->id]) }}" method="POST">
+                                                @csrf
+                                                @method('delete')
+                                                <a style="background-color: rgba(53, 142, 224, 1)" class="btn btn-sm btn-dark far fa-edit " href="{{route('customer.edit', $customer)}}"></a>
+                                                <button type="submit" class="mx-3 btn btn-sm btn-primary" data-name="{{ $customer->first_name.' '.$customer->last_name }}">
+                                                    <i class="bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

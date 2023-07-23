@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Customer;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerController extends Controller
 {
@@ -13,7 +16,12 @@ class CustomerController extends Controller
     {
         $pageTitle = 'customer';
 
-        return view('customer.index', ['pageTitle' => $pageTitle]);
+        $customers = Customer::all();
+        return view('customer.index', [
+            'pageTitle' => $pageTitle,
+            'customer' => $customers
+        ]);
+
     }
 
     /**
@@ -22,15 +30,50 @@ class CustomerController extends Controller
     public function create()
     {
         $pageTitle = 'Tambahkan Pelanggan';
-        return view('customer.create', ['pageTitle' =>$pageTitle]);
+        return view('customer.create', ['pageTitle' => $pageTitle]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(request $request)
     {
-        //
+        $messages = [
+            'required' => 'harus diisi',
+            'email' => 'Isi :attribute dengan format yang benar',
+        ];
+
+
+
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'email' => 'email',
+            'address' => 'required',
+        ], $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+
+        }
+
+
+        $avatar_path = '';
+
+        if ($request->hasFile('avatar')) {
+            $avatar_path = $request->file('avatar')->store('customers', 'public');
+        }
+
+        $customer = New Customer;
+        $customer->first_name = $request->first_name;
+        $customer->last_name = $request->last_name;
+        $customer->email = $request->email;
+        $customer->phone = $request->phone;
+        $customer->address = $request->address;
+        $customer->avatar = $avatar_path;
+        $customer->user_id = $request->user()->id;
+        $customer->save();
+
+        return redirect()->route('customer.index');
     }
 
     /**
@@ -47,7 +90,10 @@ class CustomerController extends Controller
     public function edit(string $id)
     {
         $pageTitle = 'Edit Pelanggan';
-        return view('customer.edit', ['pageTitle' => $pageTitle]);
+
+        $customer = Customer::find($id);
+
+        return view('customer.edit', compact('pageTitle', 'customer'));
     }
 
     /**
@@ -55,14 +101,45 @@ class CustomerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-    }
+
+
+        $customer = Customer::find($id);
+        $customer->first_name = $request->first_name;
+        $customer->last_name = $request->last_name;
+        $customer->email = $request->email;
+        $customer->phone = $request->phone;
+        $customer->address = $request->address;
+
+        if ($request->hasFile('avatar')) {
+            // Delete old avatar
+            if (Storage::disk('public')->exists($customer->avatar)) {
+                Storage::disk('public')->delete($customer->avatar);
+            }
+            // Store avatar
+            $avatar_path = $request->file('avatar')->store('customers', 'public');
+            // Save to Database
+            $customer->avatar = $avatar_path;
+        }
+        $customer->save();
+
+        return redirect()->route('customer.index');
+
+}
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $customer = Customer::find($id);
+
+        if (Storage::disk('public')->exists($customer->avatar)) {
+            Storage::disk('public')->delete($customer->avatar);
+        }
+
+        $customer->delete();
+
+        return redirect()->route('customer.index');
     }
+
 }
