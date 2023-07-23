@@ -83,7 +83,7 @@
                             <i class="fa fa-user-friends fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2 text-primary">Total Pelanggan</p>
-                                <h6 class="mb-0"></h6>
+                                <h6 class="mb-0">{{$customer_count}}</h6>
                             </div>
                         </div>
                     </div>
