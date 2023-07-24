@@ -11,12 +11,12 @@
             var name = $(this).data("name");
 
             Swal.fire({
-                title: "Are you sure want to delete\n" + name + "?",
-                text: "You won't be able to revert this!",
+                title: "Yakin Ingin Menghapus Produk\n" + name + "?",
+                text: "Data Akan Terhapus",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "bg-primary",
-                confirmButtonText: "Yes, delete it!",
+                confirmButtonText: "Yakin",
             }).then((result) => {
                 if (result.isConfirmed) {
                     form.submit();
