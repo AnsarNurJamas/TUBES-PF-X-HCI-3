@@ -40,4 +40,4 @@ Route::get('/order', [App\Http\Controllers\OrderController::class, 'index'])->na
 
 Route::get('export1Excel', [CustomerController::class, 'export1Excel'])->name('customer.export1Excel');
 Route::get('exportExcel', [ProductController::class, 'exportExcel'])->name('Product.exportexcel');
-
+Route::get('exportPdf', [CustomerController::class, 'exportPdf'])->name('customer.exportPdf');

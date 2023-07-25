@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Customer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\customerExport;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
+use PDF;
 
 
 class CustomerController extends Controller
@@ -172,5 +174,15 @@ class CustomerController extends Controller
     
         // return Excel::download(new ProductExport, 'Product.xlsx');
     }
+
+    public function exportPdf()
+{
+    $customer = Customer::all();
+
+    $pdf = PDF::loadView('customer.export_pdf', compact('customer'));
+
+    return $pdf->download('customer.pdf');
+}
+
 
 }
