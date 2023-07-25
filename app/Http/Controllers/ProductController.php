@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\EmployeesExport;
+use App\exports\ProductExport;
 
 class ProductController extends Controller
 {
@@ -20,7 +23,7 @@ class ProductController extends Controller
             $pageTitle = 'Product';
 
             confirmDelete();
-            
+
             $products = Product::all();
             return view('Product.index', [
                 'pageTitle' => $pageTitle,
@@ -179,6 +182,10 @@ class ProductController extends Controller
 
         Alert::success('Sukses Menghapus', 'Sukses Menghapus Produk.');
         return redirect()->route('Product.index');
+    }
+    public function exportExcel()
+    {
+    return Excel::download(new ProductExport, 'product.xlsx');
     }
     }
 

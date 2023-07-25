@@ -37,3 +37,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('Product', ProductController::class);
 Route::resource('customer', CustomerController::class);
 Route::get('/order', [App\Http\Controllers\OrderController::class, 'index'])->name('order');
+
+Route::get('exportExcel', [ProductController::class, 'exportExcel'])->name('Product.exportexcel');
