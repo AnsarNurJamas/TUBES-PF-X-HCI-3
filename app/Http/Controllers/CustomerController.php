@@ -7,8 +7,12 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Customer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+
 use App\Exports\customerExport;
 use Maatwebsite\Excel\Facades\Excel;
+
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class CustomerController extends Controller
 {
@@ -20,6 +24,7 @@ class CustomerController extends Controller
         $pageTitle = 'customer';
 
         $customers = Customer::all();
+        confirmDelete();
         return view('customer.index', [
             'pageTitle' => $pageTitle,
             'customer' => $customers
@@ -76,6 +81,7 @@ class CustomerController extends Controller
         $customer->user_id = $request->user()->id;
         $customer->save();
 
+        Alert::success('Sukses Menambahkan', 'Sukses Menambahkan Pelanggan.');
         return redirect()->route('customer.index');
     }
 
@@ -140,6 +146,7 @@ class CustomerController extends Controller
         }
         $customer->save();
 
+        Alert::success('Sukses Mengubah', 'Sukses Mengubah Pelanggan.');
         return redirect()->route('customer.index');
 
 }
@@ -157,6 +164,7 @@ class CustomerController extends Controller
 
         $customer->delete();
 
+        Alert::success('Sukses Menghapus', 'Sukses Menghapus Pelanggan.');
         return redirect()->route('customer.index');
     }
 
