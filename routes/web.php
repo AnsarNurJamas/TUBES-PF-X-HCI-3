@@ -7,7 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Redirect;
-
+use App\Exports\ProductExport;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,3 +37,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('Product', ProductController::class);
 Route::resource('customer', CustomerController::class);
 Route::get('/order', [App\Http\Controllers\OrderController::class, 'index'])->name('order');
+Route::get('exportExcel', [CustomerController::class, 'exportExcel'])->name('customer.exportExcel');

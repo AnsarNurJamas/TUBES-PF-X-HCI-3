@@ -52,7 +52,21 @@
             {{-- Title + Button  --}}
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h4 class="ms-4 mt-4">Manajemen Pelanggan</h4>
-                <a href="{{route('customer.create')}}" class="me-4 mt-4 btn btn-success"><i class="fas fa-plus"></i> Tambahkan Pelanggan</a>
+                <div class="ms-4 mt-4">
+                    <ul class="list-inline mb-0 float-end">
+                        <li class="list-inline-item">
+                            <a href="{{ route('customer.exportExcel') }}" class="btn btn-outline-success">
+                                <i class="bi bi-download me-1"></i> to Excel
+                            </a>
+                        </li>
+                        <li class="list-inline-item " >|</li>
+                        <li class="list-inline-item ">
+                            <a href="{{ route('customer.create') }}" class="me-4 btn btn-success">
+                                <i class="fas fa-plus"></i> Tambahkan Pelanggan</a>
+                        </li>
+                    </ul>
+                </div>
+                {{-- <a href="{{route('customer.create')}}" class="me-4 mt-4 btn btn-success"><i class="fas fa-plus"></i> Tambahkan Pelanggan</a> --}}
             </div>
             {{-- End Title + Button --}}
 
