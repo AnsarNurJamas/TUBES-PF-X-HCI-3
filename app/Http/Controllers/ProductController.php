@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\EmployeesExport;
 use App\exports\ProductExport;
+use PDF;
 
 class ProductController extends Controller
 {
@@ -187,5 +187,16 @@ class ProductController extends Controller
     {
     return Excel::download(new ProductExport, 'product.xlsx');
     }
+
+    public function export1Pdf()
+    {
+        $product = Product::all();
+    
+        $pdf = PDF::loadView('Product.export1_pdf', compact('product'));
+    
+        return $pdf->download('product.pdf');
+    }
+
+
     }
 

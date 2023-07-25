@@ -83,6 +83,11 @@
                                         <i class="bi bi-download me-1"></i> to Excel
                                     </a>
                                 </li>
+                                <li class="list-inline-item">
+                                    <a href="{{ route('Product.export1Pdf') }}" class="btn btn-outline-danger">
+                                        <i class="bi bi-download me-1"></i> to PDF
+                                    </a>
+                                </li>
                                 <li class="list-inline-item">|</li>
                                 <li class="list-inline-item">
                                     <a href="{{ route('Product.create') }}" class="me-4 btn btn-success">
