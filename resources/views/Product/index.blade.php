@@ -92,7 +92,7 @@
                             </ul>
                         </div>
                     </div>
-\
+                    
                         <!-- Recent Sales Start -->
                         <div class="container-fluid pt-2 px-2">
                             <div class="bg-secondary text-center rounded p-4">
