@@ -73,17 +73,31 @@
                     </div>
                 </div>
             </nav>
+
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <h4 class="ms-4 mt-4">Manajemen Produk</h4>
-                        <a href="{{ route('Product.create') }}" class="me-4 mt-4 btn btn-success"><i class="fas fa-plus"></i> Tambahkan Produk</a>
+                        <div class="ms-4 mt-4">
+                            <ul class="list-inline mb-0 float-end">
+                                <li class="list-inline-item">
+                                    <a href="{{ route('Product.exportexcel')}}" class="btn btn-outline-success">
+                                        <i class="bi bi-download me-1"></i> to Excel
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">|</li>
+                                <li class="list-inline-item">
+                                    <a href="{{ route('Product.create') }}" class="me-4 btn btn-success">
+                                        <i class="fas fa-plus"></i> Tambahkan Produk
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
+\
                         <!-- Recent Sales Start -->
-                        <div class="container-fluid pt-4 px-4">
+                        <div class="container-fluid pt-2 px-2">
                             <div class="bg-secondary text-center rounded p-4">
-                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                </div>
                                 <div class="table-responsive">
-                                    <table class="table text-start align-middle table-bordered table-hover mb-0 datatable">
+                                    <table class="table text-start align-middle table-bordered table-hover mb-0">
                                         <thead>
                                             <tr class="text-white">
                                                 <th scope="col">ID</th>
