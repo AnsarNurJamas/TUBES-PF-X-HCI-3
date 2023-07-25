@@ -7,7 +7,12 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Customer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+
+use App\Exports\customerExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 use RealRashid\SweetAlert\Facades\Alert;
+
 
 class CustomerController extends Controller
 {
@@ -161,6 +166,13 @@ class CustomerController extends Controller
 
         Alert::success('Sukses Menghapus', 'Sukses Menghapus Pelanggan.');
         return redirect()->route('customer.index');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new customerExport, 'customer.xlsx',);
+    
+        // return Excel::download(new ProductExport, 'Product.xlsx');
     }
 
 }
