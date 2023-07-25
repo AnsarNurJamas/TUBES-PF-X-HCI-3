@@ -20,7 +20,7 @@ class customerExport implements FromView, WithStyles, ShouldAutoSize
 
     public function view(): View
     {
-        return view('customer.export_excel', [
+        return view('customer.export1_excel', [
             'customer' => customer::all()
         ]);
     }

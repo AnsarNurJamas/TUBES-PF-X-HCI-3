@@ -80,7 +80,7 @@
                 <div class="ms-4 mt-4">
                     <ul class="list-inline mb-0 float-end">
                         <li class="list-inline-item">
-                            <a href="{{ route('customer.exportExcel') }}" class="btn btn-outline-success">
+                            <a href="{{ route('customer.export1Excel') }}" class="btn btn-outline-success">
                                 <i class="bi bi-download me-1"></i> to Excel
                             </a>
                         </li>
