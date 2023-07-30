@@ -73,8 +73,23 @@ class TransactionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TransactionRequest $request)
+    public function store(Request $request)
     {
+        // $data = Transaction::find('id');
+        // $data->transaction_code = $request->transaction_code;
+        // $data->user_id = $request->id;
+        // $data->customer_id = $request->customer_id;
+        // $data->discount = $request->discount;
+        // $data->sub_total = $request->sub_total;
+        // $data->discount_price = $request->discount_price;
+        // $data->grand_total= $request->grand_total;
+        // $data->paid = $request->paid;
+        // $data->change = $request->change;
+        // $data->valid= true;
+        //         // $transactionCode = now()->format('dmyHis') . Transaction::all()->count() . Auth::user()->id;
+        // $data->save();
+        // return redirect()->route('transaction.create');
+
         $request = $request->all();
 
         if ($request['coupon_code']) {
@@ -108,44 +123,44 @@ class TransactionController extends Controller
      */
     public function show($transactionCode)
     {
-        $title = "Transaction";
+        // $title = "Transaction";
 
-        $sales = Sale::with([
-            'product'
-        ])->where('transaction_code', $transactionCode);
-        $items = $sales->get();
-        $subTotal = $sales->sum('total_price');
+        // $sales = Sale::with([
+        //     'product'
+        // ])->where('transaction_code', $transactionCode);
+        // $items = $sales->get();
+        // $subTotal = $sales->sum('total_price');
 
-        $customers = Customer::all();
+        // $customers = Customer::all();
 
-        $transaction = Transaction::with([
-            'customer',
-            'user'
-        ])
-            ->where('transaction_code', $transactionCode)
-            ->where('valid', TRUE)
-            ->first();
+        // $transaction = Transaction::with([
+        //     'customer',
+        //     'user'
+        // ])
+        //     ->where('transaction_code', $transactionCode)
+        //     ->where('valid', TRUE)
+        //     ->first();
 
-        $user = User::findOrFail($transaction['user_id'])->name;
+        // $user = User::findOrFail($transaction['user_id'])->name;
 
-        $data = [
-            'date' => $transaction->created_at->toDateTimeString(),
-            // 'couponCode' => $transaction->coupon_id ? Coupon::find($transaction->coupon_id)->first()->coupon_code : '',
-            'customerId' => $transaction->customer_id,
-            'discount' => $transaction->discount,
-            'paid' => $transaction->paid,
-            'change' => $transaction->change,
-            'user' => $user
-        ];
+        // $data = [
+        //     'date' => $transaction->created_at->toDateTimeString(),
+        //     // 'couponCode' => $transaction->coupon_id ? Coupon::find($transaction->coupon_id)->first()->coupon_code : '',
+        //     'customerId' => $transaction->customer_id,
+        //     'discount' => $transaction->discount,
+        //     'paid' => $transaction->paid,
+        //     'change' => $transaction->change,
+        //     'user' => $user
+        // ];
 
-        return view('pages.transaction.show', [
-            'title' => $title,
-            'transactionCode' => $transactionCode,
-            'items' => $items,
-            'customers' => $customers,
-            'subTotal' => $subTotal,
-            'data' => $data
-        ]);
+        // return view('pages.transaction.show', [
+        //     'title' => $title,
+        //     'transactionCode' => $transactionCode,
+        //     'items' => $items,
+        //     'customers' => $customers,
+        //     'subTotal' => $subTotal,
+        //     'data' => $data
+        // ]);
     }
 
     /**

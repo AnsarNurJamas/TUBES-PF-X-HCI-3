@@ -319,7 +319,7 @@
                                         </div>
                                         <div class="text-right align-right" style="margin-top:-7px;">
                                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                            <button type="submit" class="btn btn-primary" id="createTransaction" disabled>Buat Transaksi</button>
+                                            <button type="submit" class="btn btn-primary" id="createTransaction">Buat Transaksi</button>
                                         </div>
                                     </div>
                                 </div>
