@@ -11,10 +11,11 @@
             </div>
             <div class="navbar-nav w-100">
                 <a href="{{route('home')}}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dasbor</a>
+                <a href="{{route('ProductCategories.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Kategori Prduk</a>
                 <a href="{{route('Product.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Produk</a>
                 <a href="{{route('customer.index')}}" class="nav-item nav-link active"><i class="fa fa-user-friends me-2"></i>Pelanggan</a>
+                <a href="{{ route('transaction.create', AppHelper::transaction_code())}}" class="nav-item nav-link"><i class="fa fa-cash-register me-2"></i>Transaksi Baru</a>
                 <a href="{{route('order')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Penjualan</a>
-                <a href="" class="nav-item nav-link"><i class="fa fa-cash-register me-2"></i>Titik Penjualan</a>
                 <a href="{{ route('logout') }}" class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"
                  onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
@@ -59,15 +60,11 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="first_name" class="form-label">Nama Depan</label>
-                            <input type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" id="first_name" value="{{ old('first_name') }}" placeholder="Masukan Nama Depan">
-                            @error('first_name')
-                                <div class="text-danger"><small>{{ $message }}</small></div>
+                            <label for="name" class="form-label">Nama Pelanggan</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ old('name') }}" placeholder="Masukan Nama Belakang">
+                            @error('name')
+                            <div class="text-danger"><small>{{ $message }}</small></div>
                             @enderror
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="last_name" class="form-label">Nama Belakang</label>
-                            <input type="text" class="form-control" name="last_name" id="last_name" value="{{ old('last_name') }}" placeholder="Masukan Nama Belakang">
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="email" class="form-label">Email</label>
@@ -77,8 +74,8 @@
                             @enderror
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="phone" class="form-label">Nomor Telepon</label>
-                            <input type="text" class="form-control" name="phone" id="phone" value="{{ old('phone') }}" placeholder="Masukan Nomor Telepon">
+                            <label for="phone_number" class="form-label">Nomor Telepon</label>
+                            <input type="text" class="form-control" name="phone_number" id="phone_number" value="{{ old('phone_number') }}" placeholder="Masukan Nomor Telepon">
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="address" class="form-label">Alamat</label>
@@ -86,10 +83,6 @@
                             @error('address')
                             <div class="text-danger"><small>{{ $message }}</small></div>
                             @enderror
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="avatar" class="form-label">Avatar</label>
-                            <input type="file" class="form-control" name="avatar" id="avatar" style="background-color: rgb(0, 0, 0)">
                         </div>
                         <div class="col-md-6 d-grid">
                             <a href="{{route('customer.index')}}" class="btn btn-danger btn-lg mt-3">Batal Tambahkkan Pelanggan</a>

@@ -54,7 +54,7 @@ class CustomerController extends Controller
 
 
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required',
+            'name' => 'required',
             'email' => 'email',
             'address' => 'required',
         ], $messages);
@@ -65,20 +65,11 @@ class CustomerController extends Controller
         }
 
 
-        $avatar_path = '';
-
-        if ($request->hasFile('avatar')) {
-            $avatar_path = $request->file('avatar')->store('customers', 'public');
-        }
-
         $customer = New Customer;
-        $customer->first_name = $request->first_name;
-        $customer->last_name = $request->last_name;
+        $customer->name = $request->name;
         $customer->email = $request->email;
-        $customer->phone = $request->phone;
+        $customer->phone_number = $request->phone_number;
         $customer->address = $request->address;
-        $customer->avatar = $avatar_path;
-        $customer->user_id = $request->user()->id;
         $customer->save();
 
         Alert::success('Sukses Menambahkan', 'Sukses Menambahkan Pelanggan.');
@@ -116,7 +107,7 @@ class CustomerController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'first_name' => 'required',
+            'name' => 'required',
             'email' => 'email',
             'address' => 'required',
         ], $messages);
@@ -128,25 +119,13 @@ class CustomerController extends Controller
 
 
         $customer = Customer::find($id);
-        $customer->first_name = $request->first_name;
-        $customer->last_name = $request->last_name;
+        $customer->name = $request->name;
         $customer->email = $request->email;
-        $customer->phone = $request->phone;
+        $customer->phone_number = $request->phone_number;
         $customer->address = $request->address;
-
-        if ($request->hasFile('avatar')) {
-            // Delete old avatar
-            if (Storage::disk('public')->exists($customer->avatar)) {
-                Storage::disk('public')->delete($customer->avatar);
-            }
-            // Store avatar
-            $avatar_path = $request->file('avatar')->store('customers', 'public');
-            // Save to Database
-            $customer->avatar = $avatar_path;
-        }
         $customer->save();
 
-        Alert::success('Sukses Mengubah', 'Sukses Mengubah Pelanggan.');
+        // Alert::success('Sukses Mengubah', 'Sukses Mengubah Pelanggan.');
         return redirect()->route('customer.index');
 
 }
@@ -158,10 +137,6 @@ class CustomerController extends Controller
     {
         $customer = Customer::find($id);
 
-        if (Storage::disk('public')->exists($customer->avatar)) {
-            Storage::disk('public')->delete($customer->avatar);
-        }
-
         $customer->delete();
 
         Alert::success('Sukses Menghapus', 'Sukses Menghapus Pelanggan.');
@@ -171,17 +146,17 @@ class CustomerController extends Controller
     public function export1Excel()
     {
         return Excel::download(new customerExport, 'customer.xlsx',);
-    
+
         // return Excel::download(new ProductExport, 'Product.xlsx');
     }
 
     public function exportPdf()
 {
-    $customer = Customer::all();
+    // $customer = Customer::all();
 
-    $pdf = PDF::loadView('customer.export_pdf', compact('customer'));
+    // $pdf = PDF::loadView('customer.export_pdf', compact('customer'));
 
-    return $pdf->download('customer.pdf');
+    // return $pdf->download('customer.pdf');
 }
 
 

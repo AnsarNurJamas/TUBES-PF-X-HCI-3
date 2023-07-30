@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Product;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -26,12 +27,11 @@ class HomeController extends Controller
     public function index()
     {
         $pageTitle = 'Home';
-        $customer_count = Customer::count();
-        $product_count = Product::count();
+        $transaction = Transaction::whereMonth('created_at', '=', date('m'))->where('valid', TRUE)->get();
+        // $customer_count = Customer::count();
+        // $product_count = Product::count();
 
 
-        return view('home', ['pageTitle' => $pageTitle,
-        'customer_count' => $customer_count,
-        'product_count' => $product_count,]);
+        return view('home', ['pageTitle' => $pageTitle]);
     }
 }

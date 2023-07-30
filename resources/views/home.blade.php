@@ -11,10 +11,11 @@
                 </div>
                 <div class="navbar-nav w-100">
                     <a href="{{route('home')}}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dasbor</a>
+                    <a href="{{route('ProductCategories.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Kategori Prduk</a>
                     <a href="{{route('Product.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Produk</a>
                     <a href="{{route('customer.index')}}" class="nav-item nav-link"><i class="fa fa-user-friends me-2"></i>Pelanggan</a>
+                    <a href="{{ route('transaction.create', AppHelper::transaction_code())}}" class="nav-item nav-link"><i class="fa fa-cash-register me-2"></i>Transaksi Baru</a>
                     <a href="{{route('order')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Penjualan</a>
-                    <a href="" class="nav-item nav-link"><i class="fa fa-cash-register me-2"></i>Titik Penjualan</a>
                     <a href="{{ route('logout') }}" class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"
                      onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
@@ -56,7 +57,7 @@
                             <i class="fa fa-shopping-cart fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2 text-primary">Total Produk</p>
-                                <h6 class="mb-0">{{$product_count}}</h6>
+                                <h6 class="mb-0"></h6>
                             </div>
                         </div>
                     </div>
@@ -83,7 +84,7 @@
                             <i class="fa fa-user-friends fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2 text-primary">Total Pelanggan</p>
-                                <h6 class="mb-0">{{$customer_count}}</h6>
+                                <h6 class="mb-0"></h6>
                             </div>
                         </div>
                     </div>

@@ -11,9 +11,9 @@
             </div>
             <div class="navbar-nav w-100">
                 <a href="{{route('home')}}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dasbor</a>
-                <a href="{{route('ProductCategories.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Kategori Prduk</a>
+                <a href="{{route('ProductCategories.index')}}" class="nav-item nav-link active"><i class="fa fa-shopping-cart me-2"></i>Kategori Produk</a>
                 <a href="{{route('Product.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Produk</a>
-                <a href="{{route('customer.index')}}" class="nav-item nav-link active"><i class="fa fa-user-friends me-2"></i>Pelanggan</a>
+                <a href="{{route('customer.index')}}" class="nav-item nav-link"><i class="fa fa-user-friends me-2"></i>Pelanggan</a>
                 <a href="{{ route('transaction.create', AppHelper::transaction_code())}}" class="nav-item nav-link"><i class="fa fa-cash-register me-2"></i>Transaksi Baru</a>
                 <a href="{{route('order')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Penjualan</a>
                 <a href="{{ route('logout') }}" class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"
@@ -50,46 +50,35 @@
         </nav>
         {{-- Title + Button  --}}
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <h4 class="ms-4 mt-4">Edit Pelanggan</h4>
+            <h4 class="ms-4 mt-4">Edit Kategori Produk</h4>
         </div>
         {{-- End Title + Button --}}
 
         <div class="container-fluid pt-4 px-4">
             <div class="bg-secondary rounded p-4">
-                <form action="{{route('customer.update', $customer)}}" method="POST" enctype="multipart/form-data">
+                <form action="{{route('ProductCategories.update', $productcategories)}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="name" class="form-label">Nama pelanggan</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ old('name', $customer->name) }}" placeholder="Masukan Nama Pelanggan">
+                            <label for="name" class="form-label">Kategori Produk</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ old('name', $productcategories->name) }}" placeholder="Masukan Deskripsi Kategori Produk">
                             @error('name')
                             <div class="text-danger"><small>{{ $message }}</small></div>
-                            @enderror
+                        @enderror
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" value="{{ old('email', $customer->email) }}" placeholder="Masukan Email">
-                            @error('email')
+                            <label for="description" class="form-label">Deskripsi Kategori Produk</label>
+                            <textarea type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description" value="{{ old('description', $productcategories->description) }}" placeholder="Masukan Deskripsi Kategori Product"></textarea>
+                            @error('description')
                             <div class="text-danger"><small>{{ $message }}</small></div>
-                            @enderror
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="phone_number" class="form-label">Nomor Telepon</label>
-                            <input type="text" class="form-control" name="phone_number" id="phone_number" value="{{ old('phone_number', $customer->phone_number) }}" placeholder="Masukan Nomor Telepon">
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="address" class="form-label ">Alamat</label>
-                            <input type="text" class="form-control @error('address') is-invalid @enderror" name="address" id="address" value="{{ old('address', $customer->address) }}" placeholder="Masukan Alamat">
-                            @error('address')
-                            <div class="text-danger"><small>{{ $message }}</small></div>
-                            @enderror
+                        @enderror
                         </div>
                         <div class="col-md-6 d-grid">
-                            <a href="{{route('customer.index')}}" class="btn btn-danger btn-lg mt-3">Batal Edit Pelanggan</a>
+                            <a href="{{route('ProductCategories.index')}}" class="btn btn-danger btn-lg mt-3">Batal Edit Kategori Produk</a>
                         </div>
                         <div class="col-md-6 d-grid">
-                            <button type="submit" class="btn btn-success btn-lg mt-3">Edit Pelanggan</button>
+                            <button type="submit" class="btn btn-success btn-lg mt-3">Edit Kategori Produk</button>
                         </div>
                     </div>
                 </form>

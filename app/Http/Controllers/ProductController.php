@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Maatwebsite\Excel\Facades\Excel;
 use App\exports\ProductExport;
+use App\Models\ProductCategory;
+
 use PDF;
 
 class ProductController extends Controller
@@ -21,10 +24,11 @@ class ProductController extends Controller
     {
         {
             $pageTitle = 'Product';
+            $products = Product::all();
 
             confirmDelete();
 
-            $products = Product::all();
+            // $products = Product::all();
             return view('Product.index', [
                 'pageTitle' => $pageTitle,
                 'product' => $products
@@ -38,7 +42,12 @@ class ProductController extends Controller
     public function create()
     {
         $pageTitle = 'Tambahkan Product';
-        return view('Product.create', ['pageTitle' => $pageTitle]);
+        $categories = ProductCategory::all();
+
+        return view('Product.create', [
+            'pageTitle' => $pageTitle,
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -48,16 +57,16 @@ class ProductController extends Controller
     {
         $messages = [
             'required' => 'Kolom Ini Harus Diisi.',
-            'numeric' => 'Isi :attribute dengan angka',
-            'kodeproduk.unique' => 'kode barang sudah ada',
+            'numeric' => 'Format Angka',
+            'product_code.unique' => 'kode barang sudah ada',
         ];
 
         $validator = Validator::make($request->all(), [
-            'kodeproduk' => 'required|unique:products,kodeproduk',
+            'product_code' => 'required|unique:products,product_code',
             'name' => 'required',
-            'price' => 'required|numeric',
-            'quantity' => 'required|numeric',
-            'status' => 'required',
+            'purchase_price' => 'required|numeric',
+            'selling_price' => 'required|numeric',
+            'stock' => 'required|numeric',
         ], $messages);
 
         if ($validator->fails()) {
@@ -73,16 +82,16 @@ class ProductController extends Controller
         }
 
         $product = New Product;
-        $product->kodeproduk = $request->kodeproduk;
-        $product->name = $request->name;
-        $product->description = $request->description;
+        $product->product_code = $request->product_code;
         $product->image = $image_path;
-        $product->price = $request->price;
-        $product->quantity = $request->quantity;
-        $product->status= $request->status;
+        $product->name = $request->name;
+        $product->selling_price = $request->selling_price;
+        $product->purchase_price = $request->purchase_price;
+        $product->stock = $request->stock;
+        $product->category_id= $request->category_id;
         $product->save();
 
-        Alert::success('Sukses Menambahkan', 'Sukses Menambahkan Produk.');
+        // Alert::success('Sukses Menambahkan', 'Sukses Menambahkan Produk.');
         return redirect()->route('Product.index');
     }
 
@@ -102,8 +111,9 @@ class ProductController extends Controller
         $pageTitle = 'Edit Produk';
 
         $product = Product::find($id);
+        $categories = ProductCategory::all();
 
-        return view('Product.edit', compact('pageTitle', 'product'));
+        return view('Product.edit', compact('pageTitle', 'product','categories'));
     }
 
     /**
@@ -113,41 +123,37 @@ class ProductController extends Controller
     {
         $messages = [
             'required' => 'Kolom Ini Harus Diisi.',
-            'numeric' => 'Isi :attribute dengan angka',
-            'kodeproduk.unique' => 'kode barang sudah ada',
+            'numeric' => 'Format Angka',
+            'product_code.unique' => 'kode barang sudah ada',
         ];
 
         $validator = Validator::make($request->all(), [
-            'kodeproduk' => 'required',
+            'product_code' => 'required|unique:products,product_code',
             'name' => 'required',
-            'price' => 'required|numeric',
-            'quantity' => 'required|numeric',
-            'status' => 'required',
+            'purchase_price' => 'required|numeric',
+            'selling_price' => 'required|numeric',
+            'stock' => 'required|numeric',
         ], $messages);
 
         $validator->after(function ($validator) use ($request, $id) {
-            $value = $request->input('kodeproduk');
+            $value = $request->input('product_code');
             $count = DB::table('products')
-                ->where('kodeproduk', $value)
+                ->where('product_code', $value)
                 ->where('id', '<>', $id)
                 ->count();
 
             if ($count > 0) {
-                $validator->errors()->add('kodeproduk', 'Kode Produk ini sudah dipakai.');
+                $validator->errors()->add('product_code', 'Kode Produk ini sudah dipakai.');
             }
         });
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
 
-
         }
 
-
         $product = Product::find($id);
-        $product->kodeproduk = $request->kodeproduk;
-        $product->name = $request->name;
-        $product->description = $request->description;
+        $product->product_code = $request->product_code;
         if ($request->hasFile('image')) {
             // Delete old avatar
             if (Storage::disk('public')->exists($product->image)) {
@@ -158,12 +164,14 @@ class ProductController extends Controller
             // Save to Database
             $product->image = $image_path;
         }
-        $product->price = $request->price;
-        $product->quantity = $request->quantity;
-        $product->status = $request->status;
+        $product->name = $request->name;
+        $product->selling_price = $request->selling_price;
+        $product->purchase_price = $request->purchase_price;
+        $product->stock = $request->stock;
+        $product->category_id= $request->category_id;
         $product->save();
 
-        Alert::success('Sukses Mengubah', 'Sukses Mengubah Produk.');
+        // Alert::success('Sukses Mengubah', 'Sukses Mengubah Produk.');
         return redirect()->route('Product.index');
     }
 
@@ -180,7 +188,7 @@ class ProductController extends Controller
 
         $product->delete();
 
-        Alert::success('Sukses Menghapus', 'Sukses Menghapus Produk.');
+        // Alert::success('Sukses Menghapus', 'Sukses Menghapus Produk.');
         return redirect()->route('Product.index');
     }
     public function exportExcel()
@@ -190,11 +198,11 @@ class ProductController extends Controller
 
     public function export1Pdf()
     {
-        $product = Product::all();
-    
-        $pdf = PDF::loadView('Product.export1_pdf', compact('product'));
-    
-        return $pdf->download('product.pdf');
+        // $product = Product::all();
+
+        // $pdf = PDF::loadView('Product.export1_pdf', compact('product'));
+
+        // return $pdf->download('product.pdf');
     }
 
 
