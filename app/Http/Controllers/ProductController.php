@@ -91,7 +91,7 @@ class ProductController extends Controller
         $product->category_id= $request->category_id;
         $product->save();
 
-        // Alert::success('Sukses Menambahkan', 'Sukses Menambahkan Produk.');
+        Alert::success('Sukses Menambahkan', 'Sukses Menambahkan Produk.');
         return redirect()->route('Product.index');
     }
 
@@ -128,7 +128,7 @@ class ProductController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'product_code' => 'required|unique:products,product_code',
+            'product_code' => 'required',
             'name' => 'required',
             'purchase_price' => 'required|numeric',
             'selling_price' => 'required|numeric',
@@ -171,7 +171,7 @@ class ProductController extends Controller
         $product->category_id= $request->category_id;
         $product->save();
 
-        // Alert::success('Sukses Mengubah', 'Sukses Mengubah Produk.');
+        Alert::success('Sukses Mengubah', 'Sukses Mengubah Produk.');
         return redirect()->route('Product.index');
     }
 
@@ -188,7 +188,7 @@ class ProductController extends Controller
 
         $product->delete();
 
-        // Alert::success('Sukses Menghapus', 'Sukses Menghapus Produk.');
+        Alert::success('Sukses Menghapus', 'Sukses Menghapus Produk.');
         return redirect()->route('Product.index');
     }
     public function exportExcel()
@@ -198,11 +198,11 @@ class ProductController extends Controller
 
     public function export1Pdf()
     {
-        // $product = Product::all();
+        $product = Product::all();
 
-        // $pdf = PDF::loadView('Product.export1_pdf', compact('product'));
+        $pdf = PDF::loadView('Product.export1_pdf', compact('product'));
 
-        // return $pdf->download('product.pdf');
+        return $pdf->download('product.pdf');
     }
 
 

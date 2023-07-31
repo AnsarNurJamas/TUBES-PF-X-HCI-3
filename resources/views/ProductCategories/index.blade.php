@@ -11,7 +11,7 @@
             var name = $(this).data("name");
 
             Swal.fire({
-                title: "Yakin Ingin Menghapus Produk\n" + name + "?",
+                title: "Yakin Ingin Menghapus Kategori Produk\n" + name + "?",
                 text: "Data Akan Terhapus",
                 icon: "warning",
                 showCancelButton: true,
@@ -40,8 +40,8 @@
                     <a href="{{route('ProductCategories.index')}}" class="nav-item nav-link active"><i class="fa fa-shopping-cart me-2"></i>Kategori Produk</a>
                     <a href="{{route('Product.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Produk</a>
                     <a href="{{route('customer.index')}}" class="nav-item nav-link"><i class="fa fa-user-friends me-2"></i>Pelanggan</a>
-                    <a href="{{ route('transaction.create', AppHelper::transaction_code())}}" class="nav-item nav-link"><i class="fa fa-cash-register me-2"></i>Transaksi Baru</a>
-                    <a href="{{route('order')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Penjualan</a>
+                    <a href="{{ route('transaction.create', AppHelper::transaction_code())}}" class="nav-item nav-link"><i class="fa fa-cash-register me-2"></i>Transaksi</a>
+                    <a href="{{route('transaction.index')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Penjualan</a>
                     <a href="{{ route('logout') }}" class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"
                      onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
@@ -80,17 +80,6 @@
                         <div class="ms-4 mt-4">
                             <ul class="list-inline mb-0 float-end">
                                 <li class="list-inline-item">
-                                    <a href="{{ route('Product.exportexcel')}}" class="btn btn-outline-success">
-                                        <i class="bi bi-download me-1"></i> to Excel
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="{{ route('Product.export1Pdf') }}" class="btn btn-outline-danger">
-                                        <i class="bi bi-download me-1"></i> to PDF
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">|</li>
-                                <li class="list-inline-item">
                                     <a href="{{ route('ProductCategories.create') }}" class="me-4 btn btn-success">
                                         <i class="fas fa-plus"></i> Tambahkan Produk
                                     </a>
@@ -103,7 +92,7 @@
                         <div class="container-fluid pt-2 px-2">
                             <div class="bg-secondary text-center rounded p-4">
                                 <div class="table-responsive">
-                                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                                    <table class="table text-start align-middle table-bordered table-hover mb-0 datatable">
                                         <thead>
                                             <tr class="text-white">
                                                 <th scope="col">ID</th>
@@ -121,7 +110,7 @@
                                                     <td>{{ $productcategories->description }}</td>
                                                     <td>{{$productcategories->created_at}}</td>
                                                     <td>
-                                                        <form action="" method="POST">
+                                                        <form action="{{route('ProductCategories.destroy', $productcategories)}}" method="POST">
                                                             @csrf
                                                             @method('delete')
                                                             <a style="background-color: rgba(53, 142, 224, 1)" class="btn btn-sm btn-dark far fa-edit" href="{{route('ProductCategories.edit', $productcategories)}}"></a>

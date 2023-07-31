@@ -13,7 +13,6 @@ use App\Models\Coupon;
 use App\Models\Transaction;
 
 use App\Http\Requests\SaleRequest;
-use PhpOffice\PhpSpreadsheet\Calculation\Financial\Coupons;
 
 class SaleController extends Controller
 {
@@ -43,18 +42,29 @@ class SaleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SaleRequest $request)
+    public function store(Request $request)
     {
+        $messages = [
+            'required' => 'Kolom Ini Harus Diisi.',
+            'numeric' => 'Masukan dengan format angka',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'product_code' => 'required',
+            'quantity' => 'required|numeric',
+        ], $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+
+
+        }
+
         $input = $request->all();
 
         $transactionCode = $input['transaction_code'];
         $quantity = $input['quantity'];
 
-        // Find or create transaction
-    //     $transactionCode = Transaction::firstOrCreate([
-    //         'transaction_code' => '029223211'
-    //     ],['valid' => FALSE],
-    // );
         Transaction::firstOrCreate(
             ['transaction_code' => $transactionCode],
             ['valid' => FALSE],

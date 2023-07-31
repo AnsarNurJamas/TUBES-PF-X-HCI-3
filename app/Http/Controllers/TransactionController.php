@@ -7,14 +7,11 @@ use Illuminate\Support\Carbon;
 
 use App\Models\Sale;
 use App\Models\Coupon;
+use App\Models\User;
 use App\Models\Customer;
 use App\Models\Transaction;
-use App\Models\User;
-use App\Models\CompanyProfile;
 use Illuminate\Support\Facades\Auth;
-
-use App\Http\Requests\SaleRequest;
-use App\Http\Requests\TransactionRequest;
+use Illuminate\Support\Facades\Validator;
 
 class TransactionController extends Controller
 {
@@ -31,7 +28,7 @@ class TransactionController extends Controller
             'customer'
         ])->where('valid', TRUE)->get();
 
-        return view('pages.transaction.index', [
+        return view('transaction.index', [
             'title' => $title,
             'items' => $items
         ]);
@@ -75,36 +72,28 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        // $data = Transaction::find('id');
-        // $data->transaction_code = $request->transaction_code;
-        // $data->user_id = $request->id;
-        // $data->customer_id = $request->customer_id;
-        // $data->discount = $request->discount;
-        // $data->sub_total = $request->sub_total;
-        // $data->discount_price = $request->discount_price;
-        // $data->grand_total= $request->grand_total;
-        // $data->paid = $request->paid;
-        // $data->change = $request->change;
-        // $data->valid= true;
-        //         // $transactionCode = now()->format('dmyHis') . Transaction::all()->count() . Auth::user()->id;
-        // $data->save();
-        // return redirect()->route('transaction.create');
+        $messages = [
+            'required' => 'Kolom Ini Harus Diisi.',
+            'numeric' => 'Format Angka',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'sub_total' => 'required',
+            'paid' => 'required|numeric',
+            'change' => 'required|numeric',
+        ], $messages);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+
+
+        }
 
         $request = $request->all();
 
-        if ($request['coupon_code']) {
-            $kupon = Coupon::where('coupon_code', $request['coupon_code'])->first();
-            $data['coupon_id'] = $kupon->id;
-        } else {
-            $data['coupon_id'] = null;
-        }
-
         $data['user_id'] = Auth::user()->id;
         $data['customer_id'] = $request['customer_id'];
-        $data['discount'] = $request['discount'];
         $data['sub_total'] = str_replace(',', '', $request['sub_total']);
-        $data['discount_price'] = str_replace(',', '', $request['discount_price']);
-        $data['grand_total'] = str_replace(',', '', $request['grand_total']);
         $data['paid'] = str_replace(',', '', $request['paid']);
         $data['change'] = str_replace(',', '', $request['change']);
         $data['valid'] = TRUE;
@@ -123,44 +112,42 @@ class TransactionController extends Controller
      */
     public function show($transactionCode)
     {
-        // $title = "Transaction";
+        $title = "Transaction";
 
-        // $sales = Sale::with([
-        //     'product'
-        // ])->where('transaction_code', $transactionCode);
-        // $items = $sales->get();
-        // $subTotal = $sales->sum('total_price');
+        $sales = Sale::with([
+            'product'
+        ])->where('transaction_code', $transactionCode);
+        $items = $sales->get();
+        $subTotal = $sales->sum('total_price');
 
-        // $customers = Customer::all();
+        $customers = Customer::all();
 
-        // $transaction = Transaction::with([
-        //     'customer',
-        //     'user'
-        // ])
-        //     ->where('transaction_code', $transactionCode)
-        //     ->where('valid', TRUE)
-        //     ->first();
+        $transaction = Transaction::with([
+            'customer',
+            'user'
+        ])
+            ->where('transaction_code', $transactionCode)
+            ->where('valid', TRUE)
+            ->first();
 
-        // $user = User::findOrFail($transaction['user_id'])->name;
+        $user = User::findOrFail($transaction['user_id'])->name;
 
-        // $data = [
-        //     'date' => $transaction->created_at->toDateTimeString(),
-        //     // 'couponCode' => $transaction->coupon_id ? Coupon::find($transaction->coupon_id)->first()->coupon_code : '',
-        //     'customerId' => $transaction->customer_id,
-        //     'discount' => $transaction->discount,
-        //     'paid' => $transaction->paid,
-        //     'change' => $transaction->change,
-        //     'user' => $user
-        // ];
+        $data = [
+            'date' => $transaction->created_at->toDateTimeString(),
+            'customerId' => $transaction->customer_id,
+            'paid' => $transaction->paid,
+            'change' => $transaction->change,
+            'user' => $user
+        ];
 
-        // return view('pages.transaction.show', [
-        //     'title' => $title,
-        //     'transactionCode' => $transactionCode,
-        //     'items' => $items,
-        //     'customers' => $customers,
-        //     'subTotal' => $subTotal,
-        //     'data' => $data
-        // ]);
+        return view('transaction.show', [
+            'title' => $title,
+            'transactionCode' => $transactionCode,
+            'items' => $items,
+            'customers' => $customers,
+            'subTotal' => $subTotal,
+            'data' => $data
+        ]);
     }
 
     /**
@@ -182,6 +169,7 @@ class TransactionController extends Controller
      */
     public function destroy($id)
     {
+
     }
 
     /**
@@ -213,44 +201,38 @@ class TransactionController extends Controller
         ]);
     }
 
-    // public function struk($transactionCode)
-    // {
-    //     $sales = Sale::with([
-    //         'product'
-    //     ])->where('transaction_code', $transactionCode);
-    //     $items = $sales->get();
-    //     $subTotal = $sales->sum('total_price');
+    public function struk($transactionCode)
+    {
+        $sales = Sale::with([
+            'product'
+        ])->where('transaction_code', $transactionCode);
+        $items = $sales->get();
+        $subTotal = $sales->sum('total_price');
 
-    //     $transaction = Transaction::with([
-    //         'customer',
-    //         'user'
-    //     ])
-    //         ->where('transaction_code', $transactionCode)
-    //         ->where('valid', TRUE)
-    //         ->first();
+        $transaction = Transaction::with([
+            'customer',
+            'user'
+        ])
+            ->where('transaction_code', $transactionCode)
+            ->where('valid', TRUE)
+            ->first();
 
-    //     $customer = Customer::where('id', $transaction->customer_id)->first();
-    //     $user = User::findOrFail($transaction['user_id'])->name;
+        $customer = Customer::where('id', $transaction->customer_id)->first();
+        $user = User::findOrFail($transaction['user_id'])->name;
 
-    //     $companyProfile = CompanyProfile::find(1);
+        $data = [
+            'date' => $transaction->created_at->toDateTimeString(),
+            'paid' => $transaction->paid,
+            'change' => $transaction->change,
+            'user' => $user,
+        ];
 
-    //     $data = [
-    //         'date' => $transaction->created_at->toDateTimeString(),
-    //         'couponCode' => $transaction->coupon_id ? Coupon::find($transaction->coupon_id)->first()->coupon_code : '',
-    //         'discount' => $transaction->discount,
-    //         'paid' => $transaction->paid,
-    //         'change' => $transaction->change,
-    //         'grandTotal' => $transaction->grand_total,
-    //         'user' => $user,
-    //         'companyProfile' => $companyProfile
-    //     ];
-
-    //     return view('pages.transaction.struk', [
-    //         'transactionCode' => $transactionCode,
-    //         'items' => $items,
-    //         'customer' => $customer,
-    //         'subTotal' => $subTotal,
-    //         'data' => $data
-    //     ]);
-    // }
+        return view('transaction.struk', [
+            'transactionCode' => $transactionCode,
+            'items' => $items,
+            'customer' => $customer,
+            'subTotal' => $subTotal,
+            'data' => $data
+        ]);
+    }
 }
