@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Data Product</title>
+    <title>Data Produk</title>
     <style>
         html {
             font-size: 9px;
@@ -30,28 +30,22 @@
                 <th>ID</th>
                 <th>KODE PRODUK</th>
                 <th>NAMA</th>
-                <th>GAMBAR</th>
-                <th>HARGA</th>
-                <th>JUMLAH</th>
-                <th>SATUAN</th>
-                <th>STATUS</th>
-                <th>CREATE AT</th>
-                <th>UPDATE AT</th>
+                <th>HARGA BELI</th>
+                <th>HARGA JUAL</th>
+                <th>STOK</th>
+                <th>DIBUAT PADA</th>
+                <th>DI UPDATE PADA</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($product as $index => $product )
             <tr>
                 <td>{{$index + 1}}</td>
-                <td>{{$product->kodeproduk}}</td>
+                <td>{{$product->product_code}}</td>
                 <td>{{$product->name}}</td>
-                <td>{{$product->image}}</td>
-                <td>{{$product->price}}</td>
-                <td>{{$product->quantity}}</td>
-                <td>{{$product->description}}</td>
-                <td>
-                    <span class="right badge badge-{{ $product->status ? 'success' : 'danger' }}">{{$product->status ? 'Ada' : 'Belum Ada'}}</span>
-                </td>
+                <td>{{$product->purchase_price}}</td>
+                <td>{{$product->selling_price}}</td>
+                <td>{{$product->stock}}</td>
                 <td>{{$product->created_at}}</td>
                 <td>{{$product->updated_at}}</td>
             </tr>

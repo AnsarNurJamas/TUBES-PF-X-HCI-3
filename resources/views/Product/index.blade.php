@@ -40,8 +40,8 @@
                     <a href="{{route('ProductCategories.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Kategori Prduk</a>
                     <a href="{{route('Product.index')}}" class="nav-item nav-link active"><i class="fa fa-shopping-cart me-2"></i>Produk</a>
                     <a href="{{route('customer.index')}}" class="nav-item nav-link"><i class="fa fa-user-friends me-2"></i>Pelanggan</a>
-                    <a href="{{ route('transaction.create', AppHelper::transaction_code())}}" class="nav-item nav-link"><i class="fa fa-cash-register me-2"></i>Transaksi Baru</a>
-                    <a href="{{route('order')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Penjualan</a>
+                    <a href="{{ route('transaction.create', AppHelper::transaction_code())}}" class="nav-item nav-link"><i class="fa fa-cash-register me-2"></i>Transaksi</a>
+                    <a href="{{route('transaction.index')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Penjualan</a>
                     <a href="{{ route('logout') }}" class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"
                      onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
@@ -103,7 +103,7 @@
                         <div class="container-fluid pt-2 px-2">
                             <div class="bg-secondary text-center rounded p-4">
                                 <div class="table-responsive">
-                                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                                    <table class="table text-start align-middle table-bordered table-hover mb-0 datatable">
                                         <thead>
                                             <tr class="text-white">
                                                 <th scope="col">ID</th>
@@ -122,7 +122,7 @@
                                             @foreach ($product as $product )
                                                 <tr>
                                                     <td>{{ $product->id }}</td>
-                                                    <td><img width="40px" class="img-thumbnail" src="{{ Storage::url($product->image)}}" alt=""></td>
+                                                    <td><img width="60px" height="20px" class="img-thumbnail" src="{{ Storage::url($product->image)}}" alt=""></td>
                                                     <td>{{ $product->product_code }}</td>
                                                     <td>{{ $product->name }}</td>
                                                     <td>{{ $product->selling_price }}</td>
@@ -147,28 +147,5 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Recent Sales End -->
-
-
-
-
-
-
-                        <!-- Footer Start -->
-                        {{-- <div class="container-fluid pt-4 px-4">
-                            <div class="bg-secondary rounded-top p-4">
-                                <div class="row">
-                                    <div class="col-12 col-sm-6 text-center text-sm-start">
-                                        &copy; <a href="#">RYPOS SYSTEM</a>, All Right Reserved.
-                                    </div>
-                                    <div class="col-12 col-sm-6 text-center text-sm-end">
-                                        <!--/* This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. */-->
-                                        Designed By <a href="https://htmlcodex.com">ThreeDeveloper</a>
-                                        <br>Distributed By: <a href="https://themewagon.com" target="_blank">RYPOS SYSTEM</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
-                        <!-- Footer End -->
                     </div>
 @endsection

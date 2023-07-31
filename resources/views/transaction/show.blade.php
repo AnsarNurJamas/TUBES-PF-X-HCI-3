@@ -76,12 +76,10 @@
             </nav>
 
             <div class="d-flex align-items-center justify-content-between mb-4">
-                <h4 class="ms-4 mt-4">Transaksi Baru</h4>
+                <h4 class="ms-4 mt-4">Transaksi Yang Sudah Dilakukan</h4>
             </div>
 
             <div class="container-fluid pt-2 px-2">
-                <form action="{{ route('sale.store') }}" method="POST">
-                    @csrf
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="card bg-secondary">
@@ -96,7 +94,7 @@
                                                     <i class="far fa-user"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control bg-dark" value="{{ Auth::user()->name }}" readonly>
+                                            <input type="text" class="form-control bg-dark" value="{{ $data['user'] }}" readonly>
                                         </div>
                                     </div>
 
@@ -118,53 +116,13 @@
                                                     <i class="far fa-calendar-check"></i>
                                                 </div>
                                             </div>
-                                            <input type="text" class="form-control bg-dark" value="{{ date('d/m/Y') }}" readonly>
+                                            <input type="text" class="form-control bg-dark" value="{{ \Carbon\Carbon::create($data['date'])->format('d/m/Y') }}" readonly>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-lg-3">
-
-                            <div class="card bg-secondary">
-                                <div class="card-header">
-                                    Produk
-                                </div>
-                                <div class="card-body" style="height: 170px">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text" style="height:40px">
-                                                    <i class="fas fa-barcode"></i>
-                                                </div>
-                                            </div>
-                                            <input type="text" class="form-control @error('product_code') is-invalid @enderror" name="product_code" placeholder="Kode Produk" value="{{ old('product_code') }}" required>
-                                        </div>
-                                        @error('product_code')
-                                        <div class="text-danger"><small>{{ $message }}</small></div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text" style="height:40px">
-                                                    <i class="fas fa-file-signature"></i>
-                                                </div>
-                                            </div>
-                                            <input type="number" class="form-control @error('quantity') is-invalid @enderror" name="quantity" placeholder="Quantity" value="{{ old('quantity') }}" required>
-                                        </div>
-                                        @error('quantity')
-                                        <div class="text-danger"><small>{{ $message }}</small></div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="card-footer text-right" style="margin-bottom: 5px;">
-                                    <button type="submit" class="btn btn-primary">Kirim</button>
-                                </div>
-                            </div>
-                        </div>
                         <div class="col-lg">
                             <div class="card card-block d-flex bg-secondary" style="height: 270px">
                                 <div class="card-header">
@@ -187,13 +145,12 @@
                             <table class="table" id="saleTable">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col"></th>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Foto Produk</th>
                                         <th scope="col">Nama</th>
                                         <th scope="col">Harga</th>
                                         <th scope="col">Qty</th>
                                         <th scope="col">Total</th>
-                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -201,34 +158,21 @@
                                     <tr>
                                         <th>{{ $index + 1 }}</th>
                                         <th>
-                                            <img src="" alt="Foto Produk" class="img-fluid rounded mt-1 mb-1" height="10px" width="80px" />
+                                            <img src="{{ Storage::disk('public')->exists($item->product->image) ? Storage::url($item->product->image) : url('assets/img/image_not_available.png') }}"
+                                            alt="Foto Produk" class="img-fluid rounded mt-1 mb-1" height="10px" width="80px" />
                                         </th>
                                         <th>{{ $item->product->name }}</th>
                                         <th>Rp. {{ number_format($item->product_price, 0,',',',') }}</th>
                                         <th>{{ $item->quantity }}</th>
                                         <th>Rp. {{ number_format($item->total_price, 0,',',',') }}</th>
-                                        <th class="text-right">
-                                            <div class="btn-group" role="group">
-                                                <button class="btn btn-success btn-icon icon-left" data-toggle="modal" data-target="#editItem-{{ $item->id }}">
-                                                    <i class="fas fa-edit"></i> Edit
-                                                </button>
-                                                <form action="{{route('sale.destroy', $item->id)}}" method="post">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit " class="btn btn-danger btn-icon icon-left btn-delete" data-namaproduk="">
-                                                        <i class="fas fa-trash-alt"></i> Hapus
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </th>
                                     </tr>
-                                    @empty
+                                  @empty
                                     <tr>
                                         <td colspan="7" class="text-center">
                                             Belum ada produk yang dibeli.
                                         </td>
                                     </tr>
-                                    @endforelse
+                                  @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -240,14 +184,16 @@
                         <form action="{{route('transaction.store')}}" method="post">
                             @csrf
                             <input type="hidden" name="transaction_code" value="{{ $transactionCode}}" />
-                            <div class="bg-secondary card" style="height: 200px">
+                            <div class="bg-secondary card" style="height: 150px">
                                 <div class="card-header">Pelanggan</div>
                                     <div class="card-body">
                                         <div class="form-group col-lg-12">
                                             <label>Pilih nama Pelanggan</label><br>
-                                            <select name="customer_id" class="custom-select col-lg-12 mt-3 bg-dark" style="color:white;">
+                                            <select name="customer_id" class="custom-select col-lg-12 mt-3 bg-dark" style="color:white;" disabled>
                                                 @foreach ($customers as $customer)
-                                                <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                                <option value="{{ $customer->id }}" {{ $data['customerId'] == $customer->id ? 'selected' : ''}}>
+                                                    {{ $customer->name }}
+                                                </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -255,7 +201,7 @@
                                 </div>
                             </div>
                     <div class="col-lg">
-                        <div class="card bg-secondary" style="height: 200px">
+                        <div class="card bg-secondary" style="height: 150px">
                             <div class="card-header">Pembayaran</div>
                                 <div class="card-body">
                                     <div class="row">
@@ -278,11 +224,8 @@
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text">Rp.</div>
                                                     </div>
-                                                    <input type="text" name="paid" class="form-control currency @error('paid') is-invalid @enderror" />
+                                                    <input type="text" name="paid" class="form-control currency bg-dark" value="{{ $data['paid'] }}" disabled />
                                                 </div>
-                                                @error('paid')
-                                                <div class="text-danger"><small>{{ $message }}</small></div>
-                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -292,13 +235,9 @@
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text">Rp.</div>
                                                     </div>
-                                                    <input type="text" name="change" class="form-control currency bg-dark" value="0" readonly />
+                                                    <input type="text" name="change" class="form-control currency bg-dark" value="{{ $data['change'] }}" disabled />
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="text-right align-right" style="margin-top:-7px;">
-                                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                            <button type="submit" class="btn btn-primary" id="createTransaction">Buat Transaksi</button>
                                         </div>
                                     </div>
                                 </div>
@@ -306,8 +245,6 @@
                         </div>
 
                     </div>
-                    </form>
-                </div>
         </div>
     </div>
 </div>

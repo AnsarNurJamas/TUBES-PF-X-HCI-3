@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ProductCategory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductCategoriesController extends Controller
 {
@@ -17,6 +18,7 @@ class ProductCategoriesController extends Controller
         $title = "Product Categories";
 
         $productcategories = ProductCategory::all();
+        confirmDelete();
 
         return view('ProductCategories.index', [
             'title' => $title,
@@ -58,6 +60,7 @@ class ProductCategoriesController extends Controller
         $productcategory->description = $request->description;
         $productcategory->save();
 
+        Alert::success('Sukses Menambahkan', 'Sukses Menambahkan Kategori Produk.');
         return redirect()->route('ProductCategories.index');
     }
 
@@ -107,7 +110,7 @@ class ProductCategoriesController extends Controller
         $productcategory->description = $request->description;
         $productcategory->save();
 
-        // Alert::success('Sukses Mengubah', 'Sukses Mengubah Produk.');
+        Alert::success('Sukses Mengubah', 'Sukses Mengubah Kategori Produk.');
         return redirect()->route('ProductCategories.index');
     }
 
@@ -116,6 +119,11 @@ class ProductCategoriesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $productcategory = ProductCategory::find($id);
+
+        $productcategory->delete();
+
+        Alert::success('Sukses Menghapus', 'Sukses Menghapus Kategori Produk.');
+        return redirect()->route('ProductCategories.index');
     }
 }

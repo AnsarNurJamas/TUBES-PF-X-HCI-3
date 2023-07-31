@@ -23,10 +23,10 @@ class SaleRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'product_code' => 'required',
-            'transaction_code' => 'required|nullable',
-            'quantity' => 'required|integer'
-        ];
+        // return [
+        //     'product_code' => 'required',
+        //     'transaction_code' => 'required|nullable',
+        //     'quantity' => 'required|integer'
+        // ];
     }
 }

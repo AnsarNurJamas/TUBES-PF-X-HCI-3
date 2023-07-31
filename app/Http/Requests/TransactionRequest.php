@@ -23,15 +23,15 @@ class TransactionRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'transaction_code' => 'required',
-            'customer_id' => 'required|integer',
-            'discount' => 'required',
-            'discount_price' => 'required',
-            'sub_total' => 'required',
-            'grand_total' => 'required',
-            'paid' => 'required',
-            'change' => 'string'
-        ];
+        // return [
+        //     'transaction_code' => 'required',
+        //     'customer_id' => 'required|integer',
+        //     'discount' => 'required',
+        //     'discount_price' => 'required',
+        //     'sub_total' => 'required',
+        //     'grand_total' => 'required',
+        //     'paid' => 'required',
+        //     'change' => 'string'
+        // ];
     }
 }
