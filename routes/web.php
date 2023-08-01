@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProductCategoriesController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CompanyProfileController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\OrderController;
@@ -47,6 +48,8 @@ Route::resource('ProductCategories', ProductCategoriesController::class);
 Route::resource('customer', CustomerController::class);
 Route::get('/order', [App\Http\Controllers\OrderController::class, 'index'])->name('order');
 Route::get('/penjualan',[App\Http\Controllers\PenjualanController::class, 'index'])->name('penjualan');
+Route::get('/company', 'CompanyProfileController@index')->name('company.index');
+Route::post('/company', 'CompanyProfileController@save')->name('CompanyProfile.save');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
@@ -61,8 +64,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ]);
     Route::get('/transaction/create/{transaction_code?}', 'TransactionController@create')->name('transaction.create');
 
-    Route::get('/profile', 'ProfileController@index')->name('profile.index');
-    Route::put('/profile', 'ProfileController@update')->name('profile.update');
 });
 
 

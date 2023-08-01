@@ -41,6 +41,7 @@
                     <a href="{{route('customer.index')}}" class="nav-item nav-link active"><i class="fa fa-user-friends me-2"></i>Pelanggan</a>
                     <a href="{{ route('transaction.create', AppHelper::transaction_code())}}" class="nav-item nav-link"><i class="fa fa-cash-register me-2"></i>Transaksi</a>
                     <a href="{{route('transaction.index')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Penjualan</a>
+                    <a href="{{route('company.index')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Profil</a>
                     <a href="{{ route('logout') }}" class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"
                      onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
@@ -101,7 +102,7 @@
             {{-- End Title + Button --}}
 
              <!-- Recent Sales Start -->
-             <div class="container-fluid pt-4 px-4">
+             <div class="container-fluid pt-2 px-2">
                 <div class="bg-secondary text-center rounded p-4">
                     <div class="table-responsive">
                         <table class="table text-start align-middle table-bordered table-hover mb-0 datatable">
