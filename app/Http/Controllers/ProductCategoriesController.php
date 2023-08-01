@@ -18,7 +18,6 @@ class ProductCategoriesController extends Controller
         $title = "Product Categories";
 
         $productcategories = ProductCategory::all();
-        confirmDelete();
 
         return view('ProductCategories.index', [
             'title' => $title,

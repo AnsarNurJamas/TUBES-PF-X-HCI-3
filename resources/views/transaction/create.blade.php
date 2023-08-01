@@ -266,7 +266,7 @@
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text">Rp.</div>
                                                     </div>
-                                                    <input type="text" name="sub_total" class="form-control currency bg-dark" value="{{ $subTotal }}" readonly />
+                                                    <input type="text" name="sub_total" id="subtotal" class="form-control currency bg-dark" value="{{ $subTotal }}" readonly />
                                                 </div>
                                             </div>
                                         </div>
@@ -278,7 +278,7 @@
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text">Rp.</div>
                                                     </div>
-                                                    <input type="text" name="paid" class="form-control currency @error('paid') is-invalid @enderror" />
+                                                    <input type="text" name="paid" id="paid" class="form-control currency @error('paid') is-invalid @enderror" oninput="calculateChange()" />
                                                 </div>
                                                 @error('paid')
                                                 <div class="text-danger"><small>{{ $message }}</small></div>
@@ -292,7 +292,7 @@
                                                     <div class="input-group-prepend">
                                                         <div class="input-group-text">Rp.</div>
                                                     </div>
-                                                    <input type="text" name="change" class="form-control currency bg-dark" value="0" readonly />
+                                                    <input type="text" name="change" id="change" class="form-control currency bg-dark" value="0" readonly />
                                                 </div>
                                             </div>
                                         </div>
@@ -345,4 +345,21 @@
 </div>
 </div>
 @endforeach
+@push('scripts')
+<script>
+    function calculateChange() {
+        const subtotal = parseFloat(document.getElementById('subtotal').value);
+        const paid = parseFloat(document.getElementById('paid').value);
+        const changes = paid - subtotal;
+        const change = document.getElementById('change');
+
+        if (changes >= 0) {
+            change.value = `${changes}`;
+        } else {
+            change.value = 'Pembayaran Kurang!';
+        }
+    }
+</script>
+
+@endpush
 @endsection

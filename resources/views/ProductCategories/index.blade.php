@@ -21,7 +21,10 @@
                 if (result.isConfirmed) {
                     form.submit();
                 }
-            });
+                else {
+                Swal.fire('Penghapusan dibatalkan', '', 'info');
+                }
+        });
         });
     });
 </script>
