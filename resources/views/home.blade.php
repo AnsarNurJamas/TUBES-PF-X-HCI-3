@@ -57,7 +57,7 @@
                             <i class="fa fa-shopping-cart fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2 text-primary">Total Produk</p>
-                                <h6 class="mb-0"></h6>
+                                <h6 class="mb-0">{{$product_count}}</h6>
                             </div>
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                             <i class="fa fa-chart-line fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2 text-primary">Total Penjualan</p>
-                                <h6 class="mb-0">20</h6>
+                                <h6 class="mb-0">{{$transaction_count}}</h6>
                             </div>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                             <i class="fa fa-dollar-sign fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2 text-primary">Total Pendapatan</p>
-                                <h6 class="mb-0">Rp 10.000.000</h6>
+                                <h6 class="mb-0">{{$profit}}</h6>
                             </div>
                         </div>
                     </div>
@@ -84,16 +84,7 @@
                             <i class="fa fa-user-friends fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2 text-primary">Total Pelanggan</p>
-                                <h6 class="mb-0"></h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-xl-3">
-                        <div class="bg-secondary rounded d-flex align-items-center p-4">
-                            <i class="fa fa-calendar-day fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2 text-primary">Pendapatan Hari Ini</p>
-                                <h6 class="mb-0">Rp 200.000</h6>
+                                <h6 class="mb-0">{{$customer_count}}</h6>
                             </div>
                         </div>
                     </div>

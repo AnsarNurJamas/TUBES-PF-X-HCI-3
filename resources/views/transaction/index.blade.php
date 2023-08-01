@@ -76,11 +76,11 @@
                         <table class="table text-start align-middle table-bordered table-hover mt-4">
                             <thead>
                                 <tr class="text-white">
-                                    <th class="text-center" scope="col">Kode Transaksi</th>
+                                    <th class="text-center" scope="col">No</th>
+                                    <th scope="col">Kode Transaksi</th>
                                     <th scope="col">Pelanggan</th>
                                     <th scope="col">Total Harga</th>
                                     <th scope="col">Tanggal</th>
-                                    <th scope="col">Dibuat Pada</th>
                                     <th class="text-center" scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -90,7 +90,7 @@
                                         <td class="text-center">{{ $index + 1 }}</td>
                                         <td>{{ $item->transaction_code }}</td>
                                         <td>{{ $item->customer->name }}</td>
-                                        <td>{{ number_format($item->grand_total, 0,',',',') }}</td>
+                                        <td>{{ number_format($item->sub_total, 0,',',',') }}</td>
                                         <td>{{ date('d-m-Y', strtotime($item->created_at)) }}</td>
                                         <td class="text-center">
                                             <a href="{{ route('transaction.show', $item->transaction_code) }}" class="btn btn-primary btn-icon icon-left">
