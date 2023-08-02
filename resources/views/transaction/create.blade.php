@@ -37,12 +37,12 @@
                 </div>
                 <div class="navbar-nav w-100">
                     <a href="{{route('home')}}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dasbor</a>
-                    <a href="{{route('ProductCategories.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Kategori Prduk</a>
+                    <a href="{{route('ProductCategories.index')}}" class="nav-item nav-link"><i class="fa fa-th-large  me-2"></i>Kategori Prduk</a>
                     <a href="{{route('Product.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Produk</a>
                     <a href="{{route('customer.index')}}" class="nav-item nav-link"><i class="fa fa-user-friends me-2"></i>Pelanggan</a>
                     <a href="{{ route('transaction.create', AppHelper::transaction_code())}}" class="nav-item nav-link active"><i class="fa fa-cash-register me-2"></i>Transaksi</a>
                     <a href="{{route('transaction.index')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Penjualan</a>
-                    <a href="{{route('company.index')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Profil</a>
+                    <a href="{{route('company.index')}}" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Profil</a>
                     <a href="{{ route('logout') }}" class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"
                      onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
@@ -162,7 +162,7 @@
                                     </div>
                                 </div>
                                 <div class="card-footer text-right" style="margin-bottom: 5px;">
-                                    <button type="submit" class="btn btn-primary">Kirim</button>
+                                    <button type="submit" class="btn btn-success">Kirim</button>
                                 </div>
                             </div>
                         </div>
@@ -189,7 +189,7 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col"></th>
+                                        <th scope="col">Gambar</th>
                                         <th scope="col">Nama</th>
                                         <th scope="col">Harga</th>
                                         <th scope="col">Qty</th>
@@ -202,7 +202,7 @@
                                     <tr>
                                         <th>{{ $index + 1 }}</th>
                                         <th>
-                                            <img src="" alt="Foto Produk" class="img-fluid rounded mt-1 mb-1" height="10px" width="80px" />
+                                            <img src="{{ Storage::url($item->image)}}" alt="Foto Produk" class="img-fluid rounded mt-1 mb-1" height="10px" width="80px" />
                                         </th>
                                         <th>{{ $item->product->name }}</th>
                                         <th>Rp. {{ number_format($item->product_price, 0,',',',') }}</th>
@@ -210,7 +210,7 @@
                                         <th>Rp. {{ number_format($item->total_price, 0,',',',') }}</th>
                                         <th class="text-right">
                                             <div class="btn-group" role="group">
-                                                <button class="btn btn-success btn-icon icon-left" data-toggle="modal" data-target="#editItem-{{ $item->id }}">
+                                                <button type="button" class="btn btn-success btn-icon icon-left" data-bs-toggle="modal" data-bs-target="#editItem-{{ $item->id }}">
                                                     <i class="fas fa-edit"></i> Edit
                                                 </button>
                                                 <form action="{{route('sale.destroy', $item->id)}}" method="post">
@@ -299,7 +299,7 @@
                                         </div>
                                         <div class="text-right align-right" style="margin-top:-7px;">
                                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                            <button type="submit" class="btn btn-primary" id="createTransaction">Buat Transaksi</button>
+                                            <button type="submit" class="btn btn-success" id="createTransaction">Buat Transaksi</button>
                                         </div>
                                     </div>
                                 </div>
@@ -315,7 +315,7 @@
 @foreach ($items as $item)
 <div class="modal fade" tabindex="-1" role="dialog" id="editItem-{{ $item->id }}">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content bg-secondary">
             <form action="{{ route('sale.update', $item->id) }}" method="POST">
                 @method('PUT')
                 @csrf
@@ -328,17 +328,17 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Kode Produk</label>
-                        <input type="text" class="form-control" value="{{ $item->product->product_code }}" readonly />
+                        <label style="color: #ffffff">Kode Produk</label>
+                        <input type="text" class="form-control bg-dark" value="{{ $item->product->product_code }}" readonly />
                     </div>
                     <div class="form-group">
-                        <label>Quantity</label>
-                        <input type="number" name="quantity" class="form-control" value="{{ $item->quantity }}" required />
+                        <label style="color: #ffffff">Quantity</label>
+                        <input type="number" name="quantity" class="form-control bg-dark" value="{{ $item->quantity }}" required />
                     </div>
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Batal</button>
                 </div>
             </form>
         </div>

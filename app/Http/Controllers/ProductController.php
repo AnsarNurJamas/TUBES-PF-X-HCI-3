@@ -12,7 +12,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Maatwebsite\Excel\Facades\Excel;
 use App\exports\ProductExport;
 use App\Models\ProductCategory;
-
+use Illuminate\Support\Facades\Response;
 use PDF;
 
 class ProductController extends Controller
@@ -24,11 +24,10 @@ class ProductController extends Controller
     {
         {
             $pageTitle = 'Product';
-            $products = Product::all();
 
             confirmDelete();
 
-            // $products = Product::all();
+           $products = Product::all();
             return view('Product.index', [
                 'pageTitle' => $pageTitle,
                 'product' => $products
@@ -175,6 +174,7 @@ class ProductController extends Controller
         return redirect()->route('Product.index');
     }
 
+
     /**
      * Remove the specified resource from storage.
      */
@@ -191,16 +191,29 @@ class ProductController extends Controller
         Alert::success('Sukses Menghapus', 'Sukses Menghapus Produk.');
         return redirect()->route('Product.index');
     }
+
+    public function getProduct(Request $request)
+{
+    // $product = Product::select(['product_code', 'image','name','selling_price','purchase_price','stock','category_id'])->get();
+    $product = Product::all();
+
+    return Response::json($product);
+}
+
+
+
+
+
     public function exportExcel()
     {
     return Excel::download(new ProductExport, 'product.xlsx');
     }
 
-    public function export1Pdf()
+    public function exportPdf()
     {
         $product = Product::all();
 
-        $pdf = PDF::loadView('Product.export1_pdf', compact('product'));
+        $pdf = PDF::loadView('Product.export_pdf', compact('product'));
 
         return $pdf->download('product.pdf');
     }

@@ -20,12 +20,15 @@
 
     {{-- JavaScript Jquery --}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 
     {{-- Vite --}}
     @vite(['/resources/css/style.css'])
+    @vite(['/resources/css/dataTables.bootstrap5.css'])
     @vite(['js/app.js'])
     @vite(['/resources/css/bootstrap.min.css'])
     @vite(['/resources/sass/app.scss'])
+    {{-- @vite('resources/sass/app.scss') --}}
 
     {{-- Script Togler --}}
     <script>
@@ -42,6 +45,7 @@
 <body>
 @yield('content')
 @include('sweetalert::alert')
+@vite('resources/js/app.js')
 @stack('scripts')
 </body>
 </html>

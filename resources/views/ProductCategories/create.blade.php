@@ -11,12 +11,12 @@
             </div>
             <div class="navbar-nav w-100">
                 <a href="{{route('home')}}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dasbor</a>
-                    <a href="{{route('ProductCategories.index')}}" class="nav-item nav-link active"><i class="fa fa-shopping-cart me-2"></i>Kategori Produk</a>
+                    <a href="{{route('ProductCategories.index')}}" class="nav-item nav-link active"><i class="fa fa-th-large me-2"></i>Kategori Produk</a>
                     <a href="{{route('Product.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Produk</a>
                     <a href="{{route('customer.index')}}" class="nav-item nav-link"><i class="fa fa-user-friends me-2"></i>Pelanggan</a>
                     <a href="{{ route('transaction.create', AppHelper::transaction_code())}}" class="nav-item nav-link"><i class="fa fa-cash-register me-2"></i>Transaksi</a>
-                    <a href="{{route('transaction.index')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Penjualan</a>
-                    
+                    <a href="{{route('transaction.index')}}" class="nav-item nav-link"><i class="fa fa-th-large me-2"></i>Penjualan</a>
+                    <a href="{{route('company.index')}}" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Profil</a>
                     <a href="{{ route('logout') }}" class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"
                      onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
@@ -62,7 +62,7 @@
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="name" class="form-label">Kategori Produk</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ old('name') }}" placeholder="Masukan Kategori Prpduk">
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ old('name') }}" placeholder="Masukan Kategori Produk">
                             @error('name')
                             <div class="text-danger"><small>{{ $message }}</small></div>
                         @enderror

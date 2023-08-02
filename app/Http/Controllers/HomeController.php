@@ -33,9 +33,14 @@ class HomeController extends Controller
         $transaction_count = Transaction::count();
         $profit = $transaction->sum('sub_total');
         // $totalTransaction = $transaction->count();
+        $items = Transaction::with([
+            'customer'
+        ])->where('valid', TRUE)->get();
+
 
 
         return view('home', [
+            'items' => $items,
             'pageTitle' => $pageTitle,
             'customer_count' => $customer_count,
             'product_count' => $product_count,

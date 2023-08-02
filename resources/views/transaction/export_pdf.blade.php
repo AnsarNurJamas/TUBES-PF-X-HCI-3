@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Data Pelanggan</title>
+    <title>Data Penjualan</title>
     <style>
         html {
             font-size: 12px;
@@ -23,29 +23,25 @@
     </style>
 </head>
 <body>
-    <h1>Data Pelanggan</h1>
+    <h1>DATA TRANSAKSI</h1>
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>NO</th>
-                <th>ID</th>
-                <th>Nama</th>
-                <th>Email</th>
-                <th>NO.Tel</th>
-                <th>Alamat</th>
-                <th>Tanggal</th>
+                <th>KODE TRANSAKSI</th>
+                <th>PELANGGAN</th>
+                <th>TOTAL HARGA</th>
+                <th>TANGGAL</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($customer as $index => $customer)
+            @foreach ($items as $index => $item)
                 <tr>
                     <td>{{$index + 1}}</td>
-                    <td>{{$customer->id}}</td>
-                    <td>{{$customer->name}}</td>
-                    <td>{{$customer->email}}</td>
-                    <td>{{$customer->phone_number}}</td>
-                    <td>{{$customer->address}}</td>
-                    <td>{{$customer->created_at}}</td>
+                    <td>{{$item->transaction_code}}</td>
+                    <td>{{$item->customer->name}}</td>
+                    <td>{{$item->sub_total}}</td>
+                    <td>{{$item->created_at}}</td>
                 </tr>
             @endforeach
         </tbody>

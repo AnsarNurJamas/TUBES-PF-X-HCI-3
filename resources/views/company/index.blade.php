@@ -37,12 +37,12 @@
                 </div>
                 <div class="navbar-nav w-100">
                     <a href="{{route('home')}}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dasbor</a>
-                    <a href="{{route('ProductCategories.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Kategori Prduk</a>
+                    <a href="{{route('ProductCategories.index')}}" class="nav-item nav-link"><i class="fa fa-th-large me-2"></i>Kategori Prduk</a>
                     <a href="{{route('Product.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Produk</a>
                     <a href="{{route('customer.index')}}" class="nav-item nav-link"><i class="fa fa-user-friends me-2"></i>Pelanggan</a>
                     <a href="{{ route('transaction.create', AppHelper::transaction_code())}}" class="nav-item nav-link"><i class="fa fa-cash-register me-2"></i>Transaksi</a>
                     <a href="{{route('transaction.index')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Penjualan</a>
-                    <a href="{{route('company.index')}}" class="nav-item nav-link active"><i class="fa fa-chart-bar me-2"></i>Profil</a>
+                    <a href="{{route('company.index')}}" class="nav-item nav-link active"><i class="fa fa-user me-2"></i>Profil</a>
                     <a href="{{ route('logout') }}" class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"
                      onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
@@ -87,7 +87,7 @@
                                     @csrf
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-lg-2">
+                                            <div class="col-lg-3">
                                                 <div class="form-group">
                                                     <label for="">Pratinjau Foto</label>
                                                     <img src="{{ !is_null($item) ? Storage::url($item->image) : url('assets/img/image_not_available.png') }}"
@@ -106,7 +106,7 @@
                                                             </div> --}}
                                                         </div>
                                                         <div class="custom-file">
-                                                            <input type="file" class="custom-file-input " name="image" id="img-file">
+                                                            <input type="file" class="custom-file-input" name="image" id="img-file">
                                                             <label class="custom-file-label" id="img-name"></label>
                                                           </div>
                                                     </div>
@@ -131,7 +131,7 @@
                                     <div class="card-footer d-grid gap-2 d-md-flex justify-content-md-end"">
                                         <button type="submit" class="btn btn-primary me-md-2">Simpan</button>
                                     </div>
-                                </form>  
+                                </form>
                             </div>
                         </div>
 

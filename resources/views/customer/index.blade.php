@@ -3,7 +3,7 @@
 @push('scripts')
 <script type="module">
     $(document).ready(function() {
-
+        $('#CustomerTable').DataTable();
         $(".datatable").on("click", ".btn-delete", function (e) {
             e.preventDefault();
 
@@ -25,6 +25,7 @@
         });
     });
 </script>
+@endpush
 <div class="container-fluid position-relative d-flex p-0">
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
@@ -36,12 +37,12 @@
                 </div>
                 <div class="navbar-nav w-100">
                     <a href="{{route('home')}}" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dasbor</a>
-                    <a href="{{route('ProductCategories.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Kategori Prduk</a>
+                    <a href="{{route('ProductCategories.index')}}" class="nav-item nav-link"><i class="fa fa-th-large me-2"></i>Kategori Prduk</a>
                     <a href="{{route('Product.index')}}" class="nav-item nav-link"><i class="fa fa-shopping-cart me-2"></i>Produk</a>
                     <a href="{{route('customer.index')}}" class="nav-item nav-link active"><i class="fa fa-user-friends me-2"></i>Pelanggan</a>
                     <a href="{{ route('transaction.create', AppHelper::transaction_code())}}" class="nav-item nav-link"><i class="fa fa-cash-register me-2"></i>Transaksi</a>
                     <a href="{{route('transaction.index')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Penjualan</a>
-                    <a href="{{route('company.index')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Profil</a>
+                    <a href="{{route('company.index')}}" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Profil</a>
                     <a href="{{ route('logout') }}" class="nav-item nav-link"><i class="fa fa-sign-out-alt me-2"
                      onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
@@ -81,12 +82,12 @@
                 <div class="ms-4 mt-4">
                     <ul class="list-inline mb-0 float-end">
                         <li class="list-inline-item">
-                            <a href="{{ route('customer.export1Excel') }}" class="btn btn-outline-success">
+                            <a href="{{ route('customer.exportExcelCustomer') }}" class="btn btn-outline-success">
                                 <i class="bi bi-download me-1"></i> to Excel
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="{{ route('customer.exportPdf') }}" class="btn btn-outline-danger">
+                            <a href="{{ route('customer.exportPdfCustomer') }}" class="btn btn-outline-danger">
                                 <i class="bi bi-download me-1"></i> to PDF
                             </a>
                         </li>
@@ -103,9 +104,9 @@
 
              <!-- Recent Sales Start -->
              <div class="container-fluid pt-2 px-2">
-                <div class="bg-secondary text-center rounded p-4">
+                <div class="bg-secondary justify-content-between rounded p-4">
                     <div class="table-responsive">
-                        <table class="table text-start align-middle table-bordered table-hover mb-0 datatable">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0 datatable" id="CustomerTable">
                             <thead>
                                 <tr class="text-white">
                                     <th scope="col">ID</th>

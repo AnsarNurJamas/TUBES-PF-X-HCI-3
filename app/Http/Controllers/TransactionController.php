@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-
+use PDF;
 use App\Models\Sale;
 use App\Models\Coupon;
 use App\Models\User;
@@ -12,6 +12,9 @@ use App\Models\Customer;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Exports\TransactionExport;
+use App\Models\CompanyProfile;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
 {
@@ -100,6 +103,8 @@ class TransactionController extends Controller
 
         $transactionCode = now()->format('dmyHis') . Transaction::all()->count() . Auth::user()->id;
 
+        // $pdf = PDF::loadView('transaction.nota', compact('data'));
+
         Transaction::where('transaction_code', $request['transaction_code'])
             ->update($data);
         return redirect()->route('transaction.create', $transactionCode)->with(['success' => 'Transaksi berhasil disimpan!', 'transactionCode' => $request['transaction_code']]);
@@ -178,61 +183,21 @@ class TransactionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function report(Request $request)
+    public function exportPdfTransaction()
     {
-        $title = "Transaction Report";
+        $items = Transaction::with([
+            'customer'
+        ])->where('valid', TRUE)->get();
 
-        $data = $request->all();
-        $date = explode(' - ', $data['date']);
+        $pdf = PDF::loadView('transaction.export_pdf', compact('items'));
 
-        $fromDate   = Carbon::parse($date[0])
-            ->startOfDay()
-            ->toDateTimeString();
-        $toDate     = Carbon::parse($date[1])
-            ->endOfDay()
-            ->toDateTimeString();
-
-        $items = Transaction::whereBetween('created_at', [new Carbon($fromDate), new Carbon($toDate)])
-            ->where('valid', TRUE)->get();
-
-        return view('pages.transaction.report', [
-            'title' => $title,
-            'items' => $items
-        ]);
+        return $pdf->download('Report_Transaction.pdf');
     }
 
-    public function struk($transactionCode)
+    public function exportExcelTransaction()
     {
-        $sales = Sale::with([
-            'product'
-        ])->where('transaction_code', $transactionCode);
-        $items = $sales->get();
-        $subTotal = $sales->sum('total_price');
-
-        $transaction = Transaction::with([
-            'customer',
-            'user'
-        ])
-            ->where('transaction_code', $transactionCode)
-            ->where('valid', TRUE)
-            ->first();
-
-        $customer = Customer::where('id', $transaction->customer_id)->first();
-        $user = User::findOrFail($transaction['user_id'])->name;
-
-        $data = [
-            'date' => $transaction->created_at->toDateTimeString(),
-            'paid' => $transaction->paid,
-            'change' => $transaction->change,
-            'user' => $user,
-        ];
-
-        return view('transaction.struk', [
-            'transactionCode' => $transactionCode,
-            'items' => $items,
-            'customer' => $customer,
-            'subTotal' => $subTotal,
-            'data' => $data
-        ]);
+    return Excel::download(new TransactionExport, 'Report_Transaksi.xlsx');
     }
+
 }
+

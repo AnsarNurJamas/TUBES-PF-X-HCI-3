@@ -143,20 +143,20 @@ class CustomerController extends Controller
         return redirect()->route('customer.index');
     }
 
-    public function export1Excel()
+    public function exportExcelCustomer()
     {
         return Excel::download(new customerExport, 'customer.xlsx',);
 
         // return Excel::download(new ProductExport, 'Product.xlsx');
     }
 
-    public function exportPdf()
+    public function exportPdfCustomer()
 {
-    // $customer = Customer::all();
+    $customer = Customer::all();
 
-    // $pdf = PDF::loadView('customer.export_pdf', compact('customer'));
+    $pdf = PDF::loadView('customer.export_pdf', compact('customer'));
 
-    // return $pdf->download('customer.pdf');
+    return $pdf->download('customer.pdf');
 }
 
 
