@@ -2,14 +2,15 @@
 
 namespace App\Exports;
 
-use App\Models\customer;
+use App\Models\Transaction;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class customerExport implements FromView, WithStyles, ShouldAutoSize
+
+class TransactionExport implements FromView, WithStyles, ShouldAutoSize
 {
     public function styles(Worksheet $sheet)
     {
@@ -20,8 +21,11 @@ class customerExport implements FromView, WithStyles, ShouldAutoSize
 
     public function view(): View
     {
-        return view('customer.export_excel', [
-            'customer' => customer::all()
-        ]);
+        $items = Transaction::with([
+            'customer'
+        ])->where('valid', TRUE)->get();
+
+        return view('transaction.export_excel', compact('items')
+        );
     }
 }

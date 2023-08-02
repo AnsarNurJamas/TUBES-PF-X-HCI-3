@@ -84,7 +84,7 @@ class SaleController extends Controller
 
         $saleProducts = Sale::where([
                 ['transaction_code', '=', $transactionCode],
-                ['product_id', '=', $productId]
+                ['product_id', '=', $productId],
             ])->get();
 
         $total = $quantity * $productPrice;

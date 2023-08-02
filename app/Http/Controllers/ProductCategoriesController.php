@@ -16,6 +16,7 @@ class ProductCategoriesController extends Controller
     public function index()
     {
         $title = "Product Categories";
+        confirmDelete();
 
         $productcategories = ProductCategory::all();
 

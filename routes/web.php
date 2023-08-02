@@ -58,7 +58,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('sale', 'SaleController');
     Route::post('/transaction/storeTransaction', 'TransactionController@storeTransaction')->name('transaction.storeTransaction');
     Route::post('/transaction/report', 'TransactionController@report')->name('transaction.report');
-    Route::get('/struk/{transaction_code?}', 'TransactionController@struk')->name('transaction.struk');
     Route::resource('transaction', 'TransactionController')->except([
         'create'
     ]);
@@ -67,7 +66,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 
-Route::get('export1Excel', [CustomerController::class, 'export1Excel'])->name('customer.export1Excel');
+Route::get('exportExcelCustomer', [CustomerController::class, 'exportExcelCustomer'])->name('customer.exportExcelCustomer');
+Route::get('exportPdfCustomer', [CustomerController::class, 'exportPdfCustomer'])->name('customer.exportPdfCustomer');
+// Route::get('exportPdfCustomer', [CustomerController::class, 'exportPdfCustomer'])->name('customer.exportPdfCustomer');
+
 Route::get('exportExcel', [ProductController::class, 'exportExcel'])->name('Product.exportexcel');
-Route::get('exportPdf', [CustomerController::class, 'exportPdf'])->name('customer.exportPdf');
-Route::get('export1Pdf', [ProductController::class, 'export1Pdf'])->name('Product.export1Pdf');
+Route::get('exportPdf', [ProductController::class, 'exportPdf'])->name('Product.exportPdf');
+
+Route::get('exportPdfTransaction', [TransactionController::class, 'exportPdfTransaction'])->name('transaction.exportPdfTransaction');
+Route::get('exportExcelTransaction', [TransactionController::class, 'exportExcelTransaction'])->name('transaction.exportExcelTransaction');
+Route::get('transaction/{transaction_code?}/notaTransaction', [TransactionController::class, 'notaTransaction'])->name('transaction.notaTransaction');
+
+
+
+// Route::get('/Product', 'ProductController@getProduct')->name('ProductData');
+
+
