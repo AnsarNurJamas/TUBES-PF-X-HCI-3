@@ -116,18 +116,17 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($product as $product )
                                                 <tr>
-                                                    <td>{{ $product->id }}</td>
-                                                    <td><img width="60px" height="20px" class="img-thumbnail" src="{{ Storage::url($product->image)}}" alt=""></td>
-                                                    <td>{{ $product->product_code }}</td>
-                                                    <td>{{ $product->name }}</td>
-                                                    <td>{{ $product->selling_price }}</td>
-                                                    <td>{{ $product->purchase_price}}</td>
-                                                    <td>{{ $product->stock }}</td>
-                                                    <td>@include('layouts.actions_product')</td>
+                                                    <td></td>
+                                                    <td><img width="60px" height="20px" class="img-thumbnail" src="" alt=""></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
                                                 </tr>
-                                            @endforeach
+
                                         </tbody>
                                     </table>
                                 </div>

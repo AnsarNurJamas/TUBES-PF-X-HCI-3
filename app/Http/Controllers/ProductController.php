@@ -13,6 +13,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\exports\ProductExport;
 use App\Models\ProductCategory;
 use Illuminate\Support\Facades\Response;
+use Kreait\Firebase\Factory;
+use Ramsey\Uuid\Uuid;
 use PDF;
 
 class ProductController extends Controller
@@ -20,6 +22,14 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function connect()
+    {
+        $firebase = (new Factory)
+                    ->withServiceAccount(base_path(env('FIREBASE_CREDENTIALS')))
+                    ->withDatabaseUri(env("FIREBASE_DATABASE_URL"));
+
+        return $firebase->createDatabase();
+    }
     public function index()
     {
         {
@@ -27,10 +37,10 @@ class ProductController extends Controller
 
             confirmDelete();
 
-           $products = Product::all();
+        //    $products = Product::all();
             return view('Product.index', [
                 'pageTitle' => $pageTitle,
-                'product' => $products
+                // 'product' => $products
             ]);
         }
     }
@@ -41,11 +51,12 @@ class ProductController extends Controller
     public function create()
     {
         $pageTitle = 'Tambahkan Product';
-        $categories = ProductCategory::all();
+        // $categories = ProductCategory::all();
+        $productCategories = $this->connect()->getReference('KategoriProduct')->getSnapshot()->getValue();
 
         return view('Product.create', [
             'pageTitle' => $pageTitle,
-            'categories' => $categories
+            'productCategories' => $productCategories,
         ]);
     }
 
@@ -54,44 +65,79 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $messages = [
-            'required' => 'Kolom Ini Harus Diisi.',
-            'numeric' => 'Format Angka',
-            'product_code.unique' => 'kode barang sudah ada',
-        ];
+        // $messages = [
+        //     'required' => 'Kolom Ini Harus Diisi.',
+        //     'numeric' => 'Format Angka',
+        //     'product_code.unique' => 'kode barang sudah ada',
+        // ];
 
-        $validator = Validator::make($request->all(), [
-            'product_code' => 'required|unique:products,product_code',
-            'name' => 'required',
-            'purchase_price' => 'required|numeric',
-            'selling_price' => 'required|numeric',
-            'stock' => 'required|numeric',
-        ], $messages);
+        // $validator = Validator::make($request->all(), [
+        //     'product_code' => 'required|unique:products,product_code',
+        //     'name' => 'required',
+        //     'purchase_price' => 'required|numeric',
+        //     'selling_price' => 'required|numeric',
+        //     'stock' => 'required|numeric',
+        // ], $messages);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+        // if ($validator->fails()) {
+        //     return redirect()->back()->withErrors($validator)->withInput();
 
 
-        }
+        // }
 
-        $image_path = '';
+        // $image_path = '';
 
-        if ($request->hasFile('image')) {
-            $image_path = $request->file('image')->store('products', 'public');
-        }
+        // if ($request->hasFile('image')) {
+        //     $image_path = $request->file('image')->store('products', 'public');
+        // }
 
-        $product = New Product;
-        $product->product_code = $request->product_code;
-        $product->image = $image_path;
-        $product->name = $request->name;
-        $product->selling_price = $request->selling_price;
-        $product->purchase_price = $request->purchase_price;
-        $product->stock = $request->stock;
-        $product->category_id= $request->category_id;
-        $product->save();
+        // $product = New Product;
+        // $product->product_code = $request->product_code;
+        // $product->image = $image_path;
+        // $product->name = $request->name;
+        // $product->selling_price = $request->selling_price;
+        // $product->purchase_price = $request->purchase_price;
+        // $product->stock = $request->stock;
+        // $product->category_id= $request->category_id;
+        // $product->save();
 
-        Alert::success('Sukses Menambahkan', 'Sukses Menambahkan Produk.');
+        // Alert::success('Sukses Menambahkan', 'Sukses Menambahkan Produk.');
+        $data = $request->only(['product_code', 'namaproduct','kategoriproduct', 'hargajual', 'hargabeli', 'stock', 'deskripsiproduct']);
+        $productId = Uuid::uuid4()->toString();
+        $productCategory = $this->connect()->getReference('KategoriProduct')->getChild($data['kategoriproduct'])->getValue();
+
+        if ($request->hasFile('gambar')) {
+            $gambarPath = $request->file('gambar')->store('public/products');
+            $gambarName = pathinfo($gambarPath, PATHINFO_FILENAME);
+
+            $firebaseStorage = (new Factory)
+            ->withServiceAccount(base_path(env('FIREBASE_CREDENTIALS')))
+            ->createStorage();
+
+        $bucket = $firebaseStorage->getBucket();
+        $bucket->upload(file_get_contents(storage_path("app/{$gambarPath}")), [
+            'name' => "images/{$gambarName}.jpg", // Sesuaikan dengan struktur penyimpanan Anda
+        ]);
+
+
+        // Simpan data kategori produk ke Firebase Realtime Database
+        $this->connect()->getReference('Product/' . $productId)->set([
+            'id' => $productId,
+            'product_code' => $data['product_code'],
+            'namaproduct' => $data['namaproduct'],
+            'hargajual' => $data['hargajual'],
+            'hargabeli' => $data['hargabeli'],
+            'kategoriproduct' => $productCategory['namakategori'],
+            'stock' => $data['stock'],
+            'deskripsiproduct' => $data['deskripsiproduct'],
+            'gambar' => $gambarName,
+            // Add other fields you want to store
+        ]);
+
         return redirect()->route('Product.index');
+
+    }
+    return redirect()->back()->with('error', 'Gambar tidak diunggah.');
     }
 
     /**

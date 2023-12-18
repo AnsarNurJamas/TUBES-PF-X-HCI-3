@@ -104,23 +104,22 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($productcategories as $productcategories )
                                                 <tr>
-                                                    <td>{{ $productcategories->id }}</td>
-                                                    <td>{{ $productcategories->name }}</td>
-                                                    <td>{{ $productcategories->description }}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
                                                     <td>
-                                                        <form action="{{ route('ProductCategories.destroy', $productcategories) }}" method="POST">
+                                                        {{-- <form action="{{ route('ProductCategories.destroy', $productcategories) }}" method="POST">
                                                             @csrf
                                                             @method('delete')
                                                             <a style="background-color: rgba(53, 142, 224, 1)" class="btn btn-sm btn-dark far fa-edit" href="{{route('ProductCategories.edit', $productcategories)}}"></a>
                                                             <button type="submit" class="mx-3 btn btn-sm btn-primary btn-delete" data-name="{{ $productcategories->name }}">
                                                                 <i class="bi-trash"></i>
                                                             </button>
-                                                        </form>
+                                                        </form> --}}
                                                     </td>
                                                 </tr>
-                                            @endforeach
+              
                                         </tbody>
                                     </table>
                                 </div>

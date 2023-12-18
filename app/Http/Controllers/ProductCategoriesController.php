@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
-use Illuminate\Support\Facades\DB;
+use Kreait\Firebase\Factory;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -13,16 +13,22 @@ class ProductCategoriesController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function connect()
+    {
+        $firebase = (new Factory)
+                    ->withServiceAccount(base_path(env('FIREBASE_CREDENTIALS')))
+                    ->withDatabaseUri(env("FIREBASE_DATABASE_URL"));
+
+        return $firebase->createDatabase();
+    }
     public function index()
     {
         $title = "Product Categories";
         confirmDelete();
 
-        $productcategories = ProductCategory::all();
 
         return view('ProductCategories.index', [
             'title' => $title,
-            'productcategories' => $productcategories
         ]);
     }
 
@@ -40,27 +46,35 @@ class ProductCategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        $messages = [
-            'required' => 'Kolom Ini Harus Diisi.',
-        ];
+        // $messages = [
+        //     'required' => 'Kolom Ini Harus Diisi.',
+        // ];
 
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'description' => 'required',
-        ], $messages);
+        // $validator = Validator::make($request->all(), [
+        //     'name' => 'required',
+        //     'description' => 'required',
+        // ], $messages);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+        // if ($validator->fails()) {
+        //     return redirect()->back()->withErrors($validator)->withInput();
 
 
-        }
+        // }
 
-        $productcategory = New ProductCategory;
-        $productcategory->name = $request->name;
-        $productcategory->description = $request->description;
-        $productcategory->save();
+        // $productcategory = New ProductCategory;
+        // $productcategory->name = $request->name;
+        // $productcategory->description = $request->description;
+        // $productcategory->save();
 
-        Alert::success('Sukses Menambahkan', 'Sukses Menambahkan Kategori Produk.');
+        $data = $request->only(['namakategori', 'deskripsikategori']);
+
+        // Simpan data kategori produk ke Firebase Realtime Database
+        $this->connect()->getReference('KategoriProduct')->push([
+            'namakategori' => $data['namakategori'],
+            'deskripsikategori' => $data['deskripsikategori'],
+        ]);
+
+        // Alert::success('Sukses Menambahkan', 'Sukses Menambahkan Kategori Produk.');
         return redirect()->route('ProductCategories.index');
     }
 

@@ -62,15 +62,15 @@
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="name" class="form-label">Kategori Produk</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ old('name') }}" placeholder="Masukan Kategori Produk">
-                            @error('name')
+                            <input type="text" class="form-control @error('namakategori') is-invalid @enderror" name="namakategori" id="namakategori" value="{{ old('namakategori') }}" placeholder="Masukan Kategori Produk">
+                            @error('namakategori')
                             <div class="text-danger"><small>{{ $message }}</small></div>
                         @enderror
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="description" class="form-label">Keterangan</label>
-                            <textarea type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description" value="{{ old('description') }}" placeholder="Masukan Deskripsi Kategori Produk"></textarea>
-                            @error('description')
+                            <textarea type="text" class="form-control @error('deskripsikategori') is-invalid @enderror" name="deskripsikategori" id="deskripsikategori" value="{{ old('deskripsikategori') }}" placeholder="Masukan Deskripsi Kategori Produk"></textarea>
+                            @error('deskripsikategori')
                             <div class="text-danger"><small>{{ $message }}</small></div>
                         @enderror
                         </div>
